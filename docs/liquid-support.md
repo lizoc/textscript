@@ -41,7 +41,7 @@ We find multiple versions of liquid implementations that have really different s
 As a consequence, **the liquid parser implemented in TextScript cannot parse any custom liquid tags/filters that are using custom arguments parsing**
 but only regular arguments (strings, numbers, variables, variable properties) separated by spaces.
 
-[:top:](#liquid-support)
+[:top:](#liquid-compatibility)
 
 
 Supported types
@@ -57,7 +57,7 @@ The `nil` value (which can't be expressed in liquid) is equivalent to the expres
 
 In addition to liquid, TextScript supports the creation of an [`object`](language.md#5-objects)
 
-[:top:](#liquid-support)
+[:top:](#liquid-compatibility)
 
 
 Supported operators
@@ -71,7 +71,7 @@ In addition, TextScript supports:
 - [range `1..x` expressions](language.md#87-range-expressions)
 - [The null coalescing operator `??`](language.md#88-the-null-coalescing-operator-)
 
-[:top:](#liquid-support)
+[:top:](#liquid-compatibility)
 
 
 Supported tags
@@ -82,7 +82,7 @@ This is a list of "how to do this in TextScript" compared to liquid.
 > All the following examples are using the feature [**Ast to text**](runtime.md#ast-to-text) that
 > allows you to translate liquid templates to TextScript automatically.
 
-[:top:](#liquid-support)
+[:top:](#liquid-compatibility)
 
 ### Variable and properties
 
@@ -97,7 +97,7 @@ This is a list of "how to do this in TextScript" compared to liquid.
 | `{{ products[0].title }}`        | `{{ products[0].title }}`
 | `{{ product.empty? }}`           | `{{ product.empty? }}`
 
-[:top:](#liquid-support)
+[:top:](#liquid-compatibility)
 
 ### `comment` tag
 
@@ -112,7 +112,7 @@ This is plain {% comment %}This is comment {% with ## some tag %} and comment{% 
 This is plain {{## This is comment {% with \#\# some tag %\} and comment ##}}
 ```
 
-[:top:](#liquid-support)
+[:top:](#liquid-compatibility)
 
 ### `raw` tag
 
@@ -127,7 +127,7 @@ This is plain {% raw %}This is raw {% with some tag %} and raw{% endraw %}
 This is plain {%{This is raw {% with some tag %} and raw}%}
 ```
 
-[:top:](#liquid-support)
+[:top:](#liquid-compatibility)
 
 ### `assign` tag
 
@@ -144,7 +144,7 @@ There is no `assign` tag in TextScript compared to liquid. Just use a simple [as
 {{ variable }}
 ```
 
-[:top:](#liquid-support)
+[:top:](#liquid-compatibility)
 
 ### `if` tag
 
@@ -165,7 +165,7 @@ Liquid `if <expression>`/`endif` tags translate to a similar [`if <expression>`/
 {{ end }}
 ```
 
-[:top:](#liquid-support)
+[:top:](#liquid-compatibility)
 
 ### `unless` tag
 
@@ -187,7 +187,7 @@ Thereo is no direct equivilant of the liquid `unless <expression>`/`endunless` t
 {{ end }}
 ```
 
-[:top:](#liquid-support)
+[:top:](#liquid-compatibility)
 
 ### `case` and `when` tags
 
@@ -219,7 +219,7 @@ Liquid `case <variable>`/`when <expression>`/`endcase` tags translate to a simil
 {{ end }}
 ```
 
-[:top:](#liquid-support)
+[:top:](#liquid-compatibility)
 
 ### `for` tag
 
@@ -241,7 +241,7 @@ Liquid `for <variable> in <expression>`/`endfor` tags translate to a similar [`f
 
 > **NOTE:** TextScript supports all tags arguments: `limit`, `offset`, `reversed`
 
-[:top:](#liquid-support)
+[:top:](#liquid-compatibility)
 
 ### `tablerow` tag
 
@@ -263,7 +263,7 @@ Liquid `tablerow <variable> in <expression>`/`endtablerow` tags is exactly the s
 
 > NOTE: TextScript supports all tags arguments for `tablerow`: `cols`, `limit`, `offset`, `reversed`
 
-[:top:](#liquid-support)
+[:top:](#liquid-compatibility)
 
 ### `capture` tag
 
@@ -285,7 +285,7 @@ Liquid `capture <variable>`/`endcapture` tags translate to a similar [`capture <
 {{ variable }}
 ```
 
-[:top:](#liquid-support)
+[:top:](#liquid-compatibility)
 
 ### Pipe calls
 
@@ -302,9 +302,9 @@ Liquid pipe call works exactly the same way in TextScript [`pipe call`](language
 {{ test = "abcdef" }}
 {{ test | string.truncate 5 }}
 ```
-TextScript works by translating liquid tags to the corresponding TextScript function. However, you can also use `LiquidTemplateContext` for direct tag calls. See [liquid support in runtime](runtime.md#liquid-support).
+TextScript works by translating liquid tags to the corresponding TextScript function. However, you can also use `LiquidTemplateContext` for direct tag calls. See [liquid support in runtime](runtime.md#liquid-compatibility).
 
-[:top:](#liquid-support)
+[:top:](#liquid-compatibility)
 
 
 Supported filters
@@ -315,4 +315,4 @@ The translation is performed by the [LiquidBuiltinsFunctions mapping](../src/Liz
 
 This translation can be disabled by setting the `ParserOptions.ConvertLiquidFunctions` property to `false`.
 
-[:top:](#liquid-support)
+[:top:](#liquid-compatibility)
