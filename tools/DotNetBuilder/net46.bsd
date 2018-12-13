@@ -1,0 +1,30 @@
+frameworks {
+    net46 {
+        compiler {
+            constants = ['NETFX', 'NET46']
+            debugSymbolsType = 'full'
+        }
+        dependencies {
+            "System" { 
+                type = 'gac'
+                version = '4.0.0'
+            }
+            "System.Core" { 
+                type = 'gac'
+                version = '4.0.0'
+            }
+            "System.Xml.Linq" { 
+                type = 'gac'
+                version = '4.0.0'
+            }
+            "System.Data" { 
+                type = 'gac'
+                version = '4.0.0'
+            }
+            "System.Xml" { 
+                type = 'gac'
+                version = '4.0.0'
+            }
+        }
+    }
+}

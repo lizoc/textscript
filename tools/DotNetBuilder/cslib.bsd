@@ -1,0 +1,239 @@
+# This is a base configuration for C# libraries.
+
+# --------------------
+# Generated properties
+# --------------------
+# projectName               - Project directory name
+# toolsRelativeDir
+# repoRelativeDir
+# tempRelativeDir
+# workingRelativeDir
+# workingSourceRelativeDir
+# pkgRelativeDir
+# dotnetSdkRelativeDir
+# sourceRelativeDir
+# outputRelativeDir
+# outputObjRelativeDir
+# credRelativeDir
+# releaseRelativeDir
+# docRelativeDir
+
+
+# =======================================================
+# METADATA
+# =======================================================
+
+# [Required]
+# File base name of assembly to build
+assemblyName = ${projectName}
+
+# [Required]
+# Long name of the assembly
+assemblyTitle = ${projectName}
+
+# [Required]
+# Copyright statement
+copyright = 'Copyright © '${year}' '${company}' All rights reserved.'
+
+# [Required]
+# Assembly description
+assemblyDescription = ${product}
+
+# [Required]
+# Assembly version in the syntax major.minor.build.revision
+assemblyVersion = ${versioning.major}'.'${versioning.minor}'.'${versioning.build}'.'${versioning.revision}
+
+# [Required]
+# Use 'beta' to indicate pre-release software, or comment out for production.
+assemblyVersionSuffix = ${versioning.suffix}
+
+# [Required]
+# Default namespace
+rootNamespace = ${projectName}
+
+# =======================================================
+# COMPILER
+# =======================================================
+
+# [Required]
+# Build results will be created in [this]/[Configuration]
+baseOutputPath = ${outputRelativeDir}${dirSeparator}${projectName}
+
+# [Required]
+# Build obj results will be created in [this]/[Configuration]
+baseIntermediateOutputPath = ${outputObjRelativeDir}${dirSeparator}${projectName}
+
+# [Optional]
+# Sets the default CLS compliancy
+# CLS compliant assumes unsigned primitive types are not allowed unless explicitly declared.
+# When CLS compliant option is on, everthing with unsigned primitive types must be decorated with the [CLSComplaint(false)] attribute.
+clsCompliant = true
+
+# [Optional]
+# Partial trust setting for .NET desktop
+allowPartialTrust = true
+
+# [Optional]
+# Runtime IDs for standandalone apps
+#targetOS = []
+
+# [Required]
+# Options for controlling the compiler behavior
+compiler {
+  # [Required]
+  # [Customize]
+  # Project file extension. Use `csproj` for C#, or `vbproj` for VB.NET, etc.
+  makeFileExtension = '.csproj'
+
+  # [Required]
+  # [Customize]
+  # Code file extension. Use `cs` for C#, or `vb` for VB.NET, etc.
+  codeFileExtension = '.cs'
+
+  # [Optional]
+  # [Choose: Library, Exe, WinExe]
+  # Output dll or exe
+  #outputType = 'Library'
+
+  # [Optional]
+  # Suppress compiler warnings
+  nowarn = ['CS1591', 'CS0168']
+
+  # [Optional]
+  # Define global constants
+  #constants = ['TRACE']
+
+  # [Optional]
+  # Strict compilation mode regards all warnings as errors
+  treatWarningsAsErrors = true
+
+  # [Optional]
+  # Preserve debugging symbols
+  preserveCompilationContext = true
+
+  # [Optional]
+  # Produce XML documentation
+  #xmlDoc = false
+
+  # [Optional]
+  # Allows unsafe blocks
+  allowUnsafe = false
+
+  # [Optional]
+  # [Choose: portable, full]
+  # Debug symbol type. Choose 'portable' when using .NET Core.
+  debugSymbolsType = 'portable'
+
+  # [Optional]
+  # Enables code optimization. Takes longer to compile.
+  #optimize = false
+
+  # [Optional]
+  # Fine grain compiler options for different compilation configurations.
+  # You can specify any of the properties directly under `compilerOptions` in here (except 'configuration')
+  configuration {
+    # Debug mode configuration.
+    Debug {
+      constants = ['TRACE', 'DEBUG']
+      optimize = false
+      xmlDoc = false
+    }
+
+    # Release mode configuration.
+    Release {
+      constants = ['TRACE']
+      optimize = true
+      preserveCompilationContext = false
+      xmlDoc = true
+    }
+  }
+}
+
+templates {
+  'AssemblyInfo.cs' {
+    path = ${toolsDir}'/DotNetBuilder/AssemblyInfo.cs.tmpl1'
+    outputPath = 'Properties/AssemblyInfo.cs'
+    outputBasePath = 'projectDir'
+  }
+  'RS.Designer.cs' {
+    path = ${toolsDir}'/DotNetBuilder/RS.Designer.cs.tmpl1'
+    outputPath = 'Properties/RS.Designer.cs'
+    outputBasePath = 'projectDir'
+  }
+  'project.csproj' {
+    path = ${toolsDir}'/DotNetBuilder/project.csproj.tmpl1'
+    outputPath = ${projectName}'.csproj'
+    outputBasePath = 'projectDir'
+  }
+  'Source/**/*.tmpl1' {
+    path = ${projectDir}'/Source/*.tmpl1'
+    recurse = true
+  }
+}
+
+files {
+  'AssemblyInfo.cs' {
+    type = 'template'
+  }
+  'Message.resx' {
+    type = 'template'
+  }
+  'RS.Designer.cs' {
+    type = 'template'
+  }
+  'project.csproj' {
+    type = 'template'
+  }
+  'Source/**/*.tmpl1' {
+    type = 'template'
+  }
+  'Properties/**/*.cs' {
+    type = 'compile'
+  }
+  'Source/**/*.cs' {
+    type = 'compile'
+  }
+  'Resource/**/*.resx' {
+    type = 'embeddedResource'
+  }
+}
+
+
+
+
+#embedInteropTypes = false
+#language = 'en-US'
+#compiler {
+#  compilerName = 'csc'
+#  code {
+#    include = [
+#      'Properties/**/.cs'
+#      'Source/**/.cs'
+#    ]
+#  }
+#  embed {
+#    include = [
+#      'Embed/**'
+#    ]
+#  }
+#  copyToOutput {
+#    include = [
+#      'Resources/**'
+#    ]
+#  }
+#  staticOutput {
+#    '.' {
+#      include = [
+#        'StaticFiles/**'
+#      ]       
+#    }
+#  }
+#
+#  emitEntryPoint = false
+#  platform = 'AnyCPU'
+#  languageVersion = '6'
+#  delaySign = false
+#}
+#analyzer {
+# languageId = 'cs'
+#}

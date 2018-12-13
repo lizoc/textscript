@@ -1,0 +1,59 @@
+﻿TOPIC
+    about_Builder
+
+SYNOPSIS
+    Build system DSL based on PowerShell
+
+VERSION
+    You are running version 3.7.2048.0 of Builder :)
+
+SHORT DESCRIPTION
+    Builder is a source code build system based on PowerShell.
+
+INSTALLATION
+    The best option (if you are on Windows 10 or similar) is to use the `Install-Package` command from 
+    PowerShell.
+
+    # Using Install-Package
+
+    1. `Install-Package Builder`
+
+    2. `ipmo Builder`
+
+    3. `Get-Help about_Builder`, or `Get-Command -Module Builder`.
+
+    4. YOUR WORK HERE IS DONE.
+
+
+    # Manual portable installation
+
+    If that doesn't work for you, try installing it manually.
+
+    1. Download the latest release (https://get.lizoc.com/builder.zip)[from here]. If you want a specific 
+       version, it's something like `https://get.lizoc.com/builder.3.7.2048.0.zip`.
+
+    2. Copy the 'Builder' folder in archive to `Documents\WindowsPowerShell\Modules`.
+    So you get `Documents\WindowsPowerShell\Modules\Builder\Builder.psd1`, ...
+
+    3. Make sure your PowerShell policy allows running scripts (in an escalated terminal, type in: 
+    `Set-ExecutionPolicy Unrestricted`).
+
+    4. Here is a short script snipplet to automate the steps above:
+    ```
+    wget https://get.lizoc.com/builder.zip -OutFile $env:TEMP\builder.zip
+    Expand-Archive $env:TEMP\builder.zip $env:PSModulePath.Split(';')[0]
+    ipmo Builder
+    ```
+
+CHANGELOG
+    http://buildcenter.github.io/Builder/CHANGELOG.md
+
+LINKS
+    http://www.github.com/buildcenter/Builder
+
+COPYRIGHT
+    Copyright (c) 2018 Lizoc Inc. All rights reserved.
+
+LICENSE
+    See "LICENSE.txt" file for details.
+

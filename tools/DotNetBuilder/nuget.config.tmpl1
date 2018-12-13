@@ -1,0 +1,80 @@
+﻿{{-
+  level1_sep = '^n  '
+  level2_sep = '^n    '
+  level2_last_sep = '^n  '
+  level3_sep = '^n      '
+  level3_last_sep = '^n    '
+-}}
+<?xml version="1.0" encoding="utf-8"?>
+<configuration>
+  <config>
+    <add key="globalPackagesFolder" value="{{ pkgDir | html.xmlattrib }}" />
+  </config>
+  <packageRestore>
+    <add key="enabled" value="True" />
+    <add key="automatic" value="True" />
+  </packageRestore>
+  <packageSources>
+{{-
+  item_found = false
+  for pkg_name in (package.source | object.keys)
+    if package.source[pkg_name].apiSchema == 'oneget'
+      item_found = true
+-}}
+    {{- level2_sep -}}
+    <add key="{{ pkg_name | html.xmlattrib }}" value="{{ package.source[pkg_name].url | html.xmlattrib }}" protocolVersion="{{ package.source[pkg_name].apiVersion | html.xmlattrib }}" />
+{{-
+    end
+  end
+-}}
+    {{- item_found | string.bool level2_last_sep '' -}}
+  </packageSources>
+  <disabledPackageSources>
+{{-
+  item_found = false
+  for pkg_name in (package.source | object.keys)
+    if (package.source[pkg_name].apiSchema == 'oneget') && (package.source[pkg_name].disabled == true)
+      item_found = true
+-}}
+    {{- level2_sep -}}
+    <add key="{{ pkg_name | html.xmlattrib }}" value="true" />
+{{-
+    end
+  end
+-}}
+    {{- item_found | string.bool level2_last_sep '' -}}
+  </disabledPackageSources>
+  <apikey>
+{{-
+  item_found = false
+  for pkg_name in (package.source | object.keys)
+    if (package.source[pkg_name].apiSchema == 'oneget') && (package.source[pkg_name].apikey != empty)
+      item_found = true
+-}}
+    {{- level2_sep -}}
+    <add key="{{ pkg_name | html.xmlattrib }}" value="{{ package.source[pkg_name].apikey | html.xmlattrib }}" />
+{{-
+    end
+  end
+-}}
+    {{- item_found | string.bool level2_last_sep '' -}}
+  </apikey>
+  <packageSourceCredentials>
+{{-
+  item_found = false
+  for pkg_name in (package.source | object.keys)
+    if (package.source[pkg_name].apiSchema == 'oneget') && (package.source[pkg_name].username != empty)
+      item_found = true
+-}}
+    {{- level2_sep -}}
+    <{{ pkg_name | string.replace ' ' '_x0020+' }}>
+      <add key="Username" value="{{ package.source[pkg_name].username | html.xmlattrib }}" />
+      <add key="ClearTextPassword" value="{{ package.source[pkg_name].password | html.xmlattrib }}" />
+    </{{ pkg_name | string.replace ' ' '_x0020+' }}>
+{{-
+    end
+  end
+-}}
+    {{- item_found | string.bool level2_last_sep '' -}}
+  </packageSourceCredentials>
+</configuration>

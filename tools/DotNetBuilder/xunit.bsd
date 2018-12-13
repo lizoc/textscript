@@ -1,0 +1,19 @@
+assemblyDescription = 'Unit test for '${product}
+dependencies {
+	'xunit' {
+        version = '2.3.1'
+        type = 'package'
+    }
+    'Microsoft.NET.Test.Sdk' {
+        version = '15.5.0'
+        type = 'package'
+    }
+    'xunit.runner.visualstudio' {
+        version = '2.3.1'
+        type = 'package'
+    }
+}
+compiler {
+	constants = ['UNIT_TEST']
+    noWarn = ['CS1591']
+}

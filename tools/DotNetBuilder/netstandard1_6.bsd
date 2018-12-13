@@ -1,0 +1,94 @@
+frameworks {
+    'netstandard1.6' {
+        compiler {
+            constants = ['NETSTANDARD', 'NETSTANDARD1_6']
+            debugType = 'portable'
+        }
+        dependencies {
+            'System.Collections' {
+                type = 'package'
+                version = '4.3.0'
+            }
+            'System.Diagnostics.Debug' {
+                type = 'package'
+                version = '4.3.0'
+            }
+            'System.Dynamic.Runtime' {
+                type = 'package'
+                version = '4.3.0'
+            }
+            'System.Globalization' {
+                type = 'package'
+                version = '4.3.0'
+            }
+            'System.IO' {
+                type = 'package'
+                version = '4.3.0'
+            }
+            'System.Linq' {
+                type = 'package'
+                version = '4.3.0'
+            }
+            'System.Linq.Expressions' {
+                type = 'package'
+                version = '4.3.0'
+            }
+            'System.ObjectModel' {
+                type = 'package'
+                version = '4.3.0'
+            }
+            'System.Reflection' {
+                type = 'package'
+                version = '4.3.0'
+            }
+            'System.Reflection.Extensions' {
+                type = 'package'
+                version = '4.3.0'
+            }
+            'System.Resources.ResourceManager' {
+                type = 'package'
+                version = '4.3.0'
+            }
+            'System.Runtime' {
+                type = 'package'
+                version = '4.3.0'
+            }
+            'System.Runtime.Extensions' {
+                type = 'package'
+                version = '4.3.0'
+            }
+            'System.Runtime.Serialization.Primitives' {
+                type = 'package'
+                version = '4.3.0'
+            }
+            'System.Text.Encoding' {
+                type = 'package'
+                version = '4.3.0'
+            }
+            'System.Text.Encoding.Extensions' {
+                type = 'package'
+                version = '4.3.0'
+            }
+            'System.Text.RegularExpressions' {
+                type = 'package'
+                version = '4.3.0'
+            }
+            'System.Threading' {
+                type = 'package'
+                version = '4.3.0'
+            }
+            'System.Threading.Tasks' {
+                type = 'package'
+                version = '4.3.0'
+            }
+            'System.Xml.ReaderWriter' {
+                type = 'package'
+                version = '4.3.0'
+            }
+            'System.Xml.XDocument' {
+                type = 'package'
+                version = '4.3.0'
+            }
+        }
+    }
+}

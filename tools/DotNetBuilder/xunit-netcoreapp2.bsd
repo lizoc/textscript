@@ -1,0 +1,21 @@
+dependencies {
+    'Microsoft.NETCore.App' {
+        version = '2.0.5'
+        type = 'package'
+    }
+    'dotnet-xunit' {
+        version = '2.3.1'
+        type = 'build-tool'
+    }
+}
+frameworks {
+	'netcoreapp2.0' {
+        # xunit visual studio runner does not support netcoreapp
+        # use dotnet-xunit to test netstandard/netcore targets
+        disableVisualStudioIntegration = true
+
+        compiler {
+            constants = ['NETCOREAPP2', 'NETCOREAPP2_0']
+        }	
+	}
+}
