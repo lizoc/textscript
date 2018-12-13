@@ -1,0 +1,1 @@
+text(5,46) : error : Invalid "for statement" syntax: expecting "expression" instead of "NewLine". >>> for <variable> in <expression> ... end

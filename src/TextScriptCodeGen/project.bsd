@@ -1,0 +1,26 @@
+include 'cslib'
+include 'consoleapp'
+include 'net462'
+
+assemblyDescription = 'This is a custom tool used for building Lizoc.TextScript. You only need this tool when building Lizoc.TextScript.dll from source.'
+clsCompliant = true
+allowPartialTrust = false
+compiler {
+	# cs1591 - Missing XML comment for publicly visible type or member
+	noWarn = ['CS1591']
+	cslang = 7
+}
+dependencies {
+	'Mono.Cecil' {
+		type = 'package'
+		version = '0.10.0'
+	}
+}
+package {
+	output {
+		nuget {
+			tags = ["lizoc", "tooling", "textscript", "codegen"]
+			summary = ${assemblyDescription}
+		}
+	}
+}

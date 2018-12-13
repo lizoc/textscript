@@ -1,0 +1,1 @@
+text(7,1) : error : Unable to access the indexer for target "x" because it is null: x[0]

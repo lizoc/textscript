@@ -1,0 +1,66 @@
+include 'cslib'
+include 'net462'
+include 'netstandard1_3'
+
+assemblyDescription = 'A text templating engine, with focus on speed and simplicity.'
+clsCompliant = true
+allowPartialTrust = true
+compiler {
+	# cs1591 - Missing XML comment for publicly visible type or member
+	noWarn = ['CS1591']
+	cslang = 7
+}
+# netfx3.5 and 4.0 - System.Core & System.Web
+# (Profile328) portable40-net40+sl5+win8+wp8+wpa81 - System.Core
+# uap10.0 - Microsoft.NETCore.UniversalWindowsPlatform
+frameworks {
+	net462 {
+		compiler {
+			configuration {
+				Release {
+					strongNameKey = ${strongNameKey.testsign}
+				}
+			}
+		}
+		dependencies {
+			'System.Core' {
+				type = 'gac'
+				version = '4.0.0'
+			}
+			'System.Web' {
+				type = 'gac'
+				version = '4.0.0'
+			}
+		}
+	}
+	'netstandard1.3' {
+		disableDefaultDependencyPackages = true
+		dependencies {
+			'System.Security.Cryptography.Algorithms' {
+				type = 'package'
+				version = '4.3.0'
+			}
+		}
+	}
+}
+internalsVisibleTo {
+	'Lizoc.TextScript.Tests' {
+		'DEBUG' = null
+		'!DEBUG,NETFX' = 'PublicKey='${frameworks.net462.compiler.configuration.Release.strongNameKey.hash}
+		'!DEBUG,!NETFX' = null
+	}
+}
+package {
+	output {
+		nuget {
+			tags = [ 'lizoc', 'textscript', 'engine', 'templating', 'liquid' ]
+			summary = ${assemblyDescription}
+		}
+	}
+}
+#scripts {
+#	preCompile = []
+#	postCompile = []
+#	prePublish = []
+#	postPublish = []
+#}

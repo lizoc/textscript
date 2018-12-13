@@ -1,0 +1,1 @@
+text(5,1) : error : Invalid "for statement" syntax: expecting a variable instead of "15". >>> for <variable> in <expression> ... end

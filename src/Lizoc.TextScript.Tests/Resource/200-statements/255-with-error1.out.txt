@@ -1,0 +1,1 @@
+text(7,8) : error : An invalid target property "a.x" was specified for the "with" statement. The target property must be a "ScriptObject" instead of "null"

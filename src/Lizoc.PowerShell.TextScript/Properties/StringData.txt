@@ -1,0 +1,6 @@
+MaxDepthForEnumerableReached = An IEnumerable value was not converted to array type because the maximum tree depth level {0} was reached. Set the "Depth" parameter to a larger number or 0 for infinite depth conversion.
+MaxDepthReached              = The value of property "{0}" of type {1} was not converted because the maximum tree depth level {2} was reached. Set the "Depth" parameter to a larger number or 0 for infinite depth conversion.
+ArgumentTypeNotSupported     = The object type is unsupported by this parameter. Ensure that the object is one of the following types: {0}
+IncludeTemplateNotFound = The include template "{0}" was not found.
+ProviderDoesNotSupportWildcard = This provider does not support querying containers using wildcards: {0}
+TemplatePathNotFound = Unable to find a template at path "{0}".

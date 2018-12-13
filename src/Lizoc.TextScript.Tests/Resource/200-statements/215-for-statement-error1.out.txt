@@ -1,0 +1,1 @@
+text(5,1) : error : The iteration limit is set to 1000. A statement has exceeded this limitation: for x in 1 .. 1000000 ... end

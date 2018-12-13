@@ -1,0 +1,1 @@
+text(5,30) : error : Invalid "if statement" syntax: expecting "expression" instead of "NewLine". >>> if <expression> ... end|else|else if

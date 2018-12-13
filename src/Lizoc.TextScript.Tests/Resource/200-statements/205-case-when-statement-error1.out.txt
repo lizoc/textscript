@@ -1,0 +1,1 @@
+text(9,5) : error : The parser has encountered an unexpected token "variable" in the body of a "case" statement. The keyword "when" or "else" is expected.

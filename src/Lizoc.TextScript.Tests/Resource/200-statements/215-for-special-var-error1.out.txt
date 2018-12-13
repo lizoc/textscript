@@ -1,0 +1,1 @@
+text(4,1) : error : The loop variable "for.index" cannot be used outside a loop block.

@@ -1,0 +1,81 @@
+4
+0
+Test
+Test
+test
+test
+this-is-a-value
+test
+items
+remove:This is a  with a 
+This is a test with a test
+
+remove_first:This is a  with a test
+This is a test with a test
+
+replace:This is a boom with a boom
+
+replace_first:This is a boom with a test
+This is a test with a test
+
+yoyo
+test
+slice:est
+es
+te
+t
+
+
+st
+
+slice1:e
+es
+te
+t
+
+
+s
+
+a | b | c | d | e | f
+[]
+true
+false
+test
+testtest
+
+truncate: This is a lo...
+This i and blabla...
+
+This is a test truncated...
+
+TEST
+This Will Capitalize Words
+
+This is a string + another string
+another string + This is a string
+null | string.append "+ another string": + another string
+null | string.append null: 
+"This is a string" | string.append null: This is a string
+md5: 098f6bcd4621d373cade4e832627b4f6
+sha1: a94a8fe5ccb19ba61c4c0873d391e987982fbbd3
+sha256: 9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08
+hmac_sha1: 1aa349585ed7ecbd3b9c486a30067e395ca4b356
+hmac_sha256: 0329a06b62cd16b33eb6792be8c60b158d89a2ee3a876fce9a881ebb488c0914
+"tota" | string.contains "ta": true
+null | string.contains "ta": false
+"tota" | string.contains null: false
+"tota" | string.starts_with "ta": false
+"tota" | string.starts_with "to": true
+null | string.starts_with "ta": false
+"tota" | string.starts_with null: false
+"tota" | string.ends_with "ta": true
+"tota" | string.ends_with "to": false
+null | string.ends_with "ta": false
+"tota" | string.ends_with null: false
+Test Convert from string to numbers:
+"123" | string.to_int + 1: 124
+"1234567891234567" | string.to_long + 1: 1234567891234568
+"123.2" | string.to_float + 1: 124.2
+"123.2" | string.to_double + 1: 124.2
+hello     world
+hello     world

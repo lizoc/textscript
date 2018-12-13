@@ -1,0 +1,1 @@
+text(14,3) : error : Cannot set the value of read-only member accessed by indexer "y": x[y]

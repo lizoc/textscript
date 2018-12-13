@@ -1,0 +1,13 @@
+(if) = 5  # assigning to a if variable is possible
+x = if    # using a variable if is possible
+x
+(if) = 6
+(if)
+===
+{{
+(if) = 5  # assigning to a if variable is possible
+x = if    # using a variable if is possible
+x
+(if) = 6
+(if)
+}}

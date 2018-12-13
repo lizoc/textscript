@@ -1,0 +1,1 @@
+text(5,1) : error : An array initializer must have a closing square bracket ] (the token "CodeExit" was found instead).

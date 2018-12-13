@@ -1,0 +1,1 @@
+text(4,5) : error : Invalid "assign expression" syntax: expecting "expression" instead of "CodeExit". >>> <target_expression> = <value_expression>

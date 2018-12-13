@@ -1,0 +1,1 @@
+text(6,5) : error : Unable to set value on a read-only variable "x".

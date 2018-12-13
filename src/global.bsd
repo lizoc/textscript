@@ -1,0 +1,160 @@
+year = '2018'
+
+pkgDir = ${rootDir}'packages/oneget'
+#credDir = ${rootDir}'Credentials/lizoc'
+
+# ------------------
+# Tooling
+# ------------------
+# .NET Core 2.1.4
+# https://github.com/dotnet/core/blob/master/release-notes/2.1/2.1.4/2.1.4-download.md
+
+# these are win64 binaries
+dotnetSdkUrl = 'https://download.microsoft.com/download/8/A/7/8A765126-50CA-4C6F-890B-19AE47961E4B/dotnet-sdk-2.1.402-win-x64.zip'
+dotnetRuntimeUrl = 'https://download.microsoft.com/download/A/7/8/A78F1D25-8D5C-4411-B544-C7D527296D5E/dotnet-runtime-2.1.4-win-x64.zip'
+
+# the default behavior is to download the sdk into the repo working directory, which means it will install a copy of the same sdk
+# in each repo. by specifying a custom location below, all repos will share the same sdk.
+# the sdk archive is about 150mb, which will be downloaded to the repo's temp directory. it then needs to be expanded to the sdk directory below, 
+# consuming about 1.3gb. you can manually delete the sdk archive in the repo's temp directory.
+dotnetSdkDir = ${rootDir}'packages/dotnetsdk'
+
+# ------------------
+# Git and CI
+# ------------------
+gitUser = 'lizoc'
+gitServerUrl = 'https://www.github.com'
+docServerUrl = 'http://'${gitUser}'.github.io'
+
+# ------------------
+# Version management
+# ------------------
+versioning {
+    major = 1
+    minor = 5
+    revision = 0
+    
+    # Default value is 'beta'. You should set it to '' when releasing a production build
+    suffix = 'rc1'
+
+    # The 'build' property takes its value from either 'release-build' or 'debug-build', depending on the configuration.
+
+    # Build number to use when configuration is 'release'
+    # Use 'auto' to autoincrement with every build
+    release-build = 242
+
+    # Build number to use when configuration is 'debug'
+    # Use 'auto' to autoincrement with every build
+    debug-build = auto
+}
+
+# ------------------
+# Branding
+# ------------------
+repoFullName = 'TextScript'
+company = 'Lizoc Inc.'
+product = 'TextScript Templating Engine'
+authors = [ 'Lizoc' ]
+trademark = 'Lizoc Inc.'
+
+website = 'http://www.lizoc.com'
+license = 'MIT'
+
+copyrightHeader {
+    'Source/*.cs' {
+        # header must appear at beginning of file => ^
+        # first line: `//`, optional whitespaces, then repeating `-` => (//)(\s)*(-)+
+        # newline: `\r\n` or `\n` => ((\r){0,1}(\n))
+        # second line: `//`, optional whitespaces, `<copyright`, any chars except line break, then `>` => (//)(\s)*(<copyright)(.)*(>)
+        # second line continue: any chars and line breaks => (.|\n)*
+        # second last line: `//`, optional whitespaces, `</copyright>`, then newline => (//)(\s)*(</copyright>)((\r){0,1}(\n))
+        # last line: `//`, optional whitespaces, then repeating `-`, then repeating whitespace and newlines => (//)(\s)*(-)+(\s|\n)*
+        find = '^(//)(\\s)*(-)+((\\r){0,1}(\\n))(//)(\\s)*(<copyright)(.)*(>)(.|\\n)*(//)(\\s)*(</copyright>)((\\r){0,1}(\\n))(//)(\\s)*(-)+(\\s|\\n)*'
+        replace = '''// -----------------------------------------------------------------------
+// <copyright file="${filename}" repo="'''${repoFullName}'''">
+//     Copyright (C) '''${year}''' '''${company}''' <'''${website}'''>
+//     The source code in this file is subject to the '''${license}''' license.
+//     See the LICENSE file in the repository root directory for more information.
+// </copyright>
+// -----------------------------------------------------------------------
+
+'''
+        recurse = true
+    }
+}
+
+# ------------------
+# Security
+# ------------------
+strongNameKey {
+    testsign {
+        path = ${credDir}'/testsign.snk'
+        token = '4f8b4d6b7de87e34'
+        hash = '0024000004800000940000000602000000240000525341310004000001000100bd215f1ff1ac4aa2795fb7d7ef3fe4926b7cc4f316b87f7d0ef1b1923c05712454de1a7584918960464143bb0e081c55d832b9cd24116924281360b5a8356d15ca91298a952dfb48e58aa9dfbad79a17f6f68d97288d02abeff5644d150854395a91287419a2a18787513c92a7fe17ea1ed87d140114cfc38da2c8176064d4b5'
+    }
+}
+
+# ------------------
+# Nuget
+# ------------------
+package {
+    source {
+        'nuget.org' {
+            url = 'https://api.nuget.org/v3/index.json'
+            apiSchema = 'oneget'
+            apiVersion = 3
+
+            #disabled = false
+            #apikey = ''
+            #username = ''
+            #password = ''
+        }
+    }
+    output {
+        nuget {
+            tags = ['lizoc']
+            owners = ['lizoc']
+            sourceCodeUrl = ${gitServerUrl}'/'${gitUser}'/'${repoName}
+            projectUrl = ${docServerUrl}'/'${repoName}
+            licenseUrl = ${package.output.nuget.projectUrl}'/license'
+            releaseNotesUrl = ${package.output.nuget.projectUrl}'/releasenotes'
+            iconUrl = ${package.output.nuget.projectUrl}'/icon.png'
+            requireLicenseAcceptance = false
+            files {
+                '/' = [
+                    ${repoDir}'/LICENSE'
+                    ${repoDir}'/THIRD-PARTY-LICENSE.txt'
+                    ${repoDir}'/README.md'
+                    ${repoDir}'/icon.png'
+                ]
+            }
+        }
+    }
+    publish {
+        'nuget.org' {
+            apiSchema = 'oneget'
+            url = 'https://www.nuget.org/api/v2/package'
+            symbols = true
+            #symbolsUrl = ''
+            timeout = 60
+            #disabled = false
+        }
+    }
+}
+
+# ------------------
+# Global templates
+# ------------------
+templates {
+    'nuget.config' {
+        path = ${toolsDir}'/DotNetBuilder/nuget.config.tmpl1'
+        outputPath = 'nuget.config'
+        outputBasePath = 'workingSourceDir'
+        global = true
+    }
+    'Message.resx' {
+        path = ${toolsDir}'/DotNetBuilder/Message.resx.tmpl1'
+        outputPath = 'Resource/Message.resx'
+        outputBasePath = 'projectDir'
+    }
+}

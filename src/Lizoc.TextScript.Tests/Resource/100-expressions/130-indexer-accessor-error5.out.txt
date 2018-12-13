@@ -1,0 +1,2 @@
+text(6,7) : error : Invalid "indexer expression" syntax: expecting "index_expression" instead of "CodeExit". >>> <expression>[<index_expression>]
+text(6,7) : error : expecting "]" instead of "CodeExit".

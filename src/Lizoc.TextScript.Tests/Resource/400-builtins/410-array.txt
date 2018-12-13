@@ -1,0 +1,85 @@
+array.limit 2: {{[1,2,3,4] | array.limit 2}}
+array.limit 0: {{[1,2,3,4] | array.limit 0}}
+array.offset 2: {{[1,2,3,4] | array.offset 2}}
+array.offset 0: {{[1,2,3,4] | array.offset 0}}
+array.offset (-1): {{[1,2,3,4] | array.offset (-1)}}
+array.offset 10: {{[1,2,3,4] | array.offset 10}}
+{{[1,2,3,4] | array.first}}
+{{[1,2,3,4] | array.last}}
+{{[1,2,3,4] | array.join ' | '}}
+{{[1,5,7,9] | array.size}}
+{{[1,1,2,2,3] | array.uniq}}
+{{[9,3,5,1] | array.sort}}
+{{[1,2,3,4] | array.add 5}}
+{{[1,2,3,4] | array.add_range [5,6,7,8] }}
+{{[1,2,3,4] | array.remove_at 0 | array.add 5}}
+{{[1,2,3,4] | array.insert_at 1 9}}
+{{[1,2,3,4] | array.reverse }}
+{{[1,2,3,4] | array.remove_at (-1) # use parenthesis to avoid confusion with binary operator - }}
+{{1..5 | array.first}}
+{{1..5 | array.last}}
+{{1..5 | array.join ' | '}}
+{{2..4 | array.size}}
+{{4..1 | array.sort}}
+null | array.size:{{null | array.size}}
+null | array.uniq:{{null | array.uniq}}
+null | array.first:{{null | array.first}}
+[] | array.uniq | array.first:{{[]   | array.uniq | array.first}}
+null | array.last:{{null | array.last}}
+null | array.reverse:{{null | array.reverse}}
+null | array.remove_at 0:{{null | array.remove_at 0}}
+null | array.add 5:{{null | array.add 5}}
+null | array.add_range ([5]):{{null | array.add_range ([5])}}
+[5] | array.add_range null:{{[5] | array.add_range null}}
+null | array.map "name":{{null | array.map "name"}}
+[] | array.map "name":{{[] | array.map "name"}}
+null | array.sort:{{null | array.sort}}
+null | array.sort "name":{{null | array.sort "name"}}
+null | array.insert_at (-1) 5:{{null | array.insert_at (-1) 5}}
+null | array.insert_at 1 5:{{null | array.insert_at 1 5}}
+[] | array.insert_at 1 5:{{null | array.insert_at 1 5}}
+[] | array.sort:{{[] | array.sort}}
+[{id: 5}, {id: 1}, {id: 10}]| array.sort "id":{{[{id: 5}, {id: 1}, {id: 10}]| array.sort "id"}}
+Cycle:
+{{for x in 1..5
+    array.cycle ["a", "b", "c"]
+end
+}}
+{{for x in 1..4
+    array.cycle ["d", "e", "f"]
+end
+}}
+Multiple cycle:
+{{for x in 1..4
+    array.cycle ["a", "b", "c", "d"]
+    array.cycle ["d", "e"]
+    array.cycle ["g"]
+    array.cycle []
+end
+}}
+Multiple cycle group:
+{{for x in 1..4
+    array.cycle ["a", "b", "c", "d"] "group1" 
+    array.cycle ["d", "e"] "group2" 
+end
+}}
+[5,6,7,8] | array.limit 2: {{ [5,6,7,8] | array.limit 2 }}
+null | array.limit 2:
+[5,6,7,8] | array.offset 2: {{ [5,6,7,8] | array.offset 2 }}
+[5,6,7,8] | array.offset 5: {{ [5,6,7,8] | array.offset 5 }}
+[5,6,7,8] | array.offset (-10): {{ [5,6,7,8] | array.offset (-10) }}
+null | array.offset 2:
+[1,2,3] | array.concat [5,6]: {{ [1,2,3] | array.concat [5,6] }}
+null | array.concat [5,6]: {{ null | array.concat [5,6] }}
+[1,2,3] | array.concat null: {{ [1,2,3] | array.concat null }}
+null | array.concat null:{{ null | array.concat null }}
+[1, null, 3] | array.compact: {{ [1, null, 3] | array.compact }}
+null | array.compact:{{ null | array.compact }}
+products | array.sort "title" | array.map "title": {{ products | array.sort "title" | array.map "title" | array.uniq }}
+5 | array.sort: {{ 5 | array.sort }}
+[1,2,"foo"] | array.has 1: {{ [1,2,"foo"] | array.has 1 }}
+[1,2,"foo"] | array.has 5: {{ [1,2,"foo"] | array.has 5 }}
+[1,2,"foo"] | array.has 2.0: {{ [1,2,"foo"] | array.has 2.0 }}
+[1,2,"foo"] | array.has "foo": {{ [1,2,"foo"] | array.has "foo" }}
+[1,2,"foo"] | array.has "fOo": {{ [1,2,"fOo"] | array.has "foo" }}
+[1,2,"foo"] | array.has "fOo" true: {{ [1,2,"fOo"] | array.has "foo" true }}

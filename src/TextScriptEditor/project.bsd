@@ -1,0 +1,35 @@
+include 'cslib'
+include 'winformapp'
+include 'net462'
+
+assemblyDescription = 'A simple text template editing tool. Powered by TextScript!'
+clsCompliant = true
+allowPartialTrust = true
+compiler {
+	# cs1591 - Missing XML comment for publicly visible type or member
+	noWarn = ['CS1591']
+	cslang = 7
+}
+package {
+	output {
+		nuget {
+			tags = ["lizoc", "editor", "textscript"]
+			summary = ${assemblyDescription}
+		}
+	}
+}
+dependencies {
+	'Lizoc.TextScript' {
+		type = 'project'
+	}
+}
+frameworks {
+	net462 {
+		dependencies {
+			'System.Windows.Forms' {
+				type = 'gac'
+				version = '4.0.0'
+			}
+		}
+	}
+}

@@ -1,0 +1,1 @@
+text(3,4) : error : Invalid "unary expression" syntax: expecting "expression" instead of "CodeExit". >>> <operator> <expression>

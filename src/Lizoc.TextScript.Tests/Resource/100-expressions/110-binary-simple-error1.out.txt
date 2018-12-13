@@ -1,0 +1,1 @@
+text(3,8) : error : Invalid "binary expression" syntax: the right-hand side of the operator must be "expression" instead of "CodeExit". >>> <expression> operator <expression>

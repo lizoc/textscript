@@ -1,0 +1,1 @@
+text(6,3) : error : Unable to access the "x.y" property for object "x" because the object is null.

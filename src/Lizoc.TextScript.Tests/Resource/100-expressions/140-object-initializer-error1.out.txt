@@ -1,0 +1,2 @@
+text(3,2) : error : An unexpected token "Integer" was encountered in an object initializer. Use a simple identifier for the member name instead of "1250".
+text(3,1) : error : Invalid "expression statement" syntax: the parser expects an end-of-line but encountered the token "}" instead. >>> <expression>

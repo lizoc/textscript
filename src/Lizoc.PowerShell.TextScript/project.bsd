@@ -1,0 +1,59 @@
+include 'cslib'
+include 'net462'
+include 'netstandard1_6'
+include 'netstandard2_0'
+
+clsCompliant = false
+allowPartialTrust = false
+assemblyDescription = 'PowerShell module for the TextScript text templating engine.'
+compiler {
+	allowUnsafe = true
+	cslang = 7
+}
+dependencies {
+	'Lizoc.TextScript' {
+		type = 'project'
+	}
+}
+frameworks {
+	# Use net462 for Windows
+	net462 {
+		dependencies {
+			'Microsoft.PowerShell.5.ReferenceAssemblies' {
+				type = 'package'
+				version = '1.1.0'
+			}
+		}
+	}
+	# Use netstandard1.6 for Nano Server
+    'netstandard1.6' {
+    	dependencies {
+			'Microsoft.PowerShell.NanoServer.NetCore.Library' {
+				type = 'package'
+				version = '1.0.0'
+			}
+			'Microsoft.Win32.Registry' {
+				type = 'package'
+				version = '4.5.0'
+			}
+			'Microsoft.Win32.Registry.AccessControl' {
+				type = 'package'
+				version = '4.5.0'
+			}
+    	}
+    }
+	# Use netstandard2.0 for Linux
+	'netstandard2.0' {
+		dependencies {
+			'PowerShellStandard.Library' {
+				type = 'package'
+				version = '5.1.0-RC1'
+			}
+		}
+	}
+}
+# PowerShellStandard.Library is still not out of ga.
+# This is needed to avoid NU5104
+versioning {
+    suffix = 'beta'
+}

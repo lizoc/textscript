@@ -1,0 +1,2 @@
+text(5,1) : error : Invalid "function statement" syntax: the parser expects an end-of-line but encountered the token "." instead. >>> func <variable> ... end
+text(5,6) : error : Invalid "function statement" syntax: no matching "end" statement. >>> func <variable> ... end

@@ -1,0 +1,1 @@
+text(6,1) : error : The value "5" (of type "Int32") is not a list. Target "x" does not have an accessor for indexing: x[0]

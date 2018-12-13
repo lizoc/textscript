@@ -1,0 +1,7 @@
+x = {for: 1} # Can use a keyword as a member
+x.for
+===
+{{
+x = {for: 1} # Can use a keyword as a member
+x.for
+}}

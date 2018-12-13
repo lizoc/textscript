@@ -1,0 +1,1 @@
+text(8,1) : error : Unable to set value on a read-only variable "x".

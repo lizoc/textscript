@@ -1,0 +1,1 @@
+text(5,1) : error : Invalid "array initializer" syntax: expecting "expression" instead of "CodeExit". >>> [item1, item2,...]

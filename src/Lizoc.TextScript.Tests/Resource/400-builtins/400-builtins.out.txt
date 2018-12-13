@@ -1,0 +1,126 @@
+List of all the builtin <array> functions:
+ add
+ add_range
+ compact
+ concat
+ cycle
+ first
+ has
+ insert_at
+ join
+ last
+ limit
+ map
+ offset
+ remove_at
+ replace_empty
+ reverse
+ size
+ sort
+ uniq
+
+List of all the builtin <math> functions:
+ abs
+ ceil
+ divided_by
+ floor
+ format
+ is_number
+ minus
+ modulo
+ plus
+ round
+ times
+
+List of all the builtin <string> functions:
+ append
+ bool
+ capitalize
+ capitalizewords
+ contains
+ downcase
+ ends_with
+ handleize
+ hmac_sha1
+ hmac_sha256
+ lstrip
+ md5
+ pad_left
+ pad_right
+ pluralize
+ prepend
+ remove
+ remove_first
+ replace
+ replace_empty
+ replace_first
+ rstrip
+ sha1
+ sha256
+ size
+ slice
+ slice1
+ split
+ starts_with
+ strip
+ strip_newlines
+ to_double
+ to_float
+ to_int
+ to_long
+ truncate
+ truncatewords
+ upcase
+
+List of all the builtin <date> functions:
+ add_days
+ add_hours
+ add_milliseconds
+ add_minutes
+ add_months
+ add_seconds
+ add_years
+ default_format
+ format
+ now
+ parse
+ to_string
+
+List of all the builtin <timespan> functions:
+ from_days
+ from_hours
+ from_milliseconds
+ from_minutes
+ from_seconds
+ parse
+ zero
+
+List of all the builtin <object> functions:
+ default
+ format
+ from_string
+ has_key
+ has_value
+ keys
+ size
+ typeof
+ values
+
+List of all the builtin <regex> functions:
+ escape
+ match
+ replace
+ split
+ unescape
+
+List of all the builtin <html> functions:
+ escape
+ strip
+ url_encode
+ url_escape
+ xmlattrib
+ xmltext
+
+List of all the builtin <fs> functions:
+ dir
+ test

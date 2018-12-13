@@ -1,0 +1,1 @@
+text(5,28) : error : Invalid "while statement" syntax: expecting "expression" instead of "NewLine". >>> while <expression> ... end

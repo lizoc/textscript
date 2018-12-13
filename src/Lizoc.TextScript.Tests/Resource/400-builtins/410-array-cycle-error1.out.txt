@@ -1,0 +1,1 @@
+text(1,10) : error : Unable to create an object or call function "array.cycle" because 0 parameter(s) was or were provided. At least 1 parameter(s) must be specified.

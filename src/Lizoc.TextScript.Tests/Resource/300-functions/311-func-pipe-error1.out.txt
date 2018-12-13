@@ -1,0 +1,1 @@
+text(4,4) : error : Invalid "pipe expression" syntax: expecting "expression" instead of "NewLine". >>> <expression> | <expression>

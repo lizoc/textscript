@@ -1,0 +1,29 @@
+include 'cslib'
+include 'consoleapp'
+include 'net462'
+
+assemblyDescription = 'This is a custom tool used for generating documentation for Lizoc.TextScript.'
+clsCompliant = true
+allowPartialTrust = false
+compiler {
+	# cs1591 - Missing XML comment for publicly visible type or member
+	noWarn = ['CS1591']
+	cslang = 7
+}
+dependencies {
+	'Lizoc.XmlDoc' {
+		type = 'package'
+		version = '1.26.863'
+	}
+	'Lizoc.TextScript' {
+		type = 'project'
+	}
+}
+package {
+	output {
+		nuget {
+			tags = ["lizoc", "tooling", "textscript", "docgen"]
+			summary = ${assemblyDescription}
+		}
+	}
+}

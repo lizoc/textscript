@@ -1,0 +1,1 @@
+text(4,12) : error : A span must have a closing bracket ). The opening "(54:3,0)" is matched to an invalid token "CodeExit".

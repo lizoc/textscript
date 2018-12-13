@@ -1,0 +1,1 @@
+text(3,2) : error : Member type "test 1" (function call expression) cannot be used for object initializer member name.

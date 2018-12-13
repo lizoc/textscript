@@ -1,0 +1,37 @@
+include 'cslib'
+include 'net462'
+include 'xunit'
+include 'xunit-net462'
+include 'xunit-netcoreapp2'
+
+clsCompliant = false
+allowPartialTrust = false
+compiler {
+	cslang = 7
+}
+dependencies {
+	'Lizoc.TextScript' {
+		type = 'project'
+	}
+}
+files {
+ 	'Resource/**/*.txt' {
+		type = 'embeddedResource'
+	}
+}
+frameworks {	
+	'netcoreapp2.0' {
+		compiler {
+			constants = ['NETSTANDARD']
+		}
+	}
+	net462 {
+		compiler {
+			configuration {
+				Release {
+					strongNameKey = ${strongNameKey.testsign}
+				}
+			}
+		}
+	}
+}

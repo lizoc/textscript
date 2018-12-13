@@ -1,0 +1,1 @@
+text(5,1) : error : Invalid "for statement" syntax: expecting the "in" keyword instead of "Identifier": toto >>> for <variable> in <expression> ... end
