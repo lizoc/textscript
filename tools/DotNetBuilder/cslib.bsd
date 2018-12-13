@@ -33,7 +33,7 @@ assemblyTitle = ${projectName}
 
 # [Required]
 # Copyright statement
-copyright = 'Copyright © '${year}' '${company}' All rights reserved.'
+copyright = 'Copyright (c) '${year}' '${company}' All rights reserved.'
 
 # [Required]
 # Assembly description
