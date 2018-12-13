@@ -37,29 +37,28 @@ TextScript borrows from the very popular [liquid](http://liquidmarkup.org/), whi
 ```Powershell
 ipmo TextScript
 @{
-  products = @(
+  food = @(
     { name = 'cabbage'; price = '$10'; fullDesc = "Fresh and green" }
     { name = 'banana';  price = '$5';  fullDesc = "Minion's favorite" }
     { name = 'beef';    price = '$50'; fullDesc = "Meatlovers delight"}
   )
 } | ConvertFrom-Tempate @'
-<ul id='products'>
-  {{ for product in products }}
+<ul id='cart'>
+  {{ for item in food }}
     <li>
-      <h2>{{ product.name }}</h2>
-           Price: {{ product.price }}
-           {{ product.full_desc | string.truncate 15 }}
+      <h2>{{ item.name }}</h2>
+           Price: {{ item.price }}
+           {{ item.full_desc | string.truncate 15 }}
     </li>
   {{ end }}
 </ul>
 '@
 ```
 
-> **LOOK HERE**
+> **Hold On!**
 >
-> By default, properties and methods of .NET objects are automatically exposed with lowercase and `_` names. It means that a property 
-> like `MyMethodIsNice` will be exposed as `my_method_is_nice`. This behavior is designed to match the naming convention in liquid 
-> templates.
+> Notice that `fullDesc` became `full_desc`? This is because TextScript automatically rename properties and methods of .NET objects to lowercase and snake case. For instance, a 
+> property like `IsProcessRunning` becomes `is_process_running` inside a template. This behavior is designed to match the naming convention in liquid templates.
 > You can override this by implementing your renaming strategy. Check out the [`MemberRenamer`](docs/runtime.md#member-renamer) delegate.
 
 
@@ -95,11 +94,6 @@ Highlights
   - [`timespan`](docs/builtins.md#timespan-functions)
 - [Multi-line statements](docs/language.md#11-code-block) without having to embrace each line by `{{...}}`
 - [Safe parser](docs/runtime.md#the-lexer-and-parser) and [safe runtime](docs/runtime.md#safe-runtime), allowing you to control what objects and functions are exposed
-
-> **LOOK HERE**
->
-> The `liquid` language is not strictly defined! We found a couple of variations in syntax, and implemented what we thought made sense. The takeaway is that 
-> TextScript has certain restrictions when parsing `liquid` templates, Read up on [liquid support](docs/liquid-support.md) for more details.
 
 
 Documentation

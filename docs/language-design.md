@@ -11,6 +11,25 @@ In the second case, the code block will not be interpreted and outputed as is.
 
 More on these below.
 
+- [Scripting code block](#scripting-code-block)
+- [Escaped code block](#escaped-code-block)
+- [Stripping](#stripping)
+- [Comments](#comments)
+- [Strings](#strings)
+- [Numbers](#numbers)
+- [Boolean](#boolean)
+- [null](#null)
+- [Variables](#variables)
+  - [The special variable `this`](#the-special-variable-this)
+  - [The special variable `empty`](#the-special-variable-empty)
+- [Objects](#objects)
+  - [Member access](#member-access)
+  - [The special property `empty?`](#the-special-property-empty)
+- [Arrays](#arrays)
+  - [Array with properties](#array-with-properties)
+  - [The special `size` property](#the-special-size-property)
+- [Functions](#functions)
+
 
 Scripting Code Block
 --------------------
@@ -62,6 +81,9 @@ Note that in the previous example, there is no line break between `5` and `6` be
 6
 ```
 
+[:top:](#language-design)
+
+
 Escaped code block
 ------------------
 Anything can be commented out from the parser by enclosing it with `{%{` and `}%}`.
@@ -77,6 +99,8 @@ Any escape block can be also escaped by increasing the number of `%` in the star
 This allow effectively to nest escape blocks and still be able to escape them.
 
 Hence a starting escape block `{%%%%{` will required an ending `}%%%%}`
+
+[:top:](#language-design)
 
 
 Stripping
@@ -176,6 +200,8 @@ The second situation above may not be intended sometimes. One solution is to be 
 
 Both mode `~` and '-' can also be used with **escape blocks** `{%%{~` or `~}%%}` or `{%%{-` or `-}%%}`
 
+[:top:](#language-design)
+
 
 Comments
 --------
@@ -196,6 +222,8 @@ comment ## }}
 ```
 
 Comments do not affect the closing tag `}}`.
+
+[:top:](#language-design)
 
 
 Strings
@@ -223,6 +251,8 @@ If you do not want escape sequences, use a **literal string** enclosed by backst
   [this, is, a, test]
 ``` 
 
+[:top:](#language-design)
+
 
 Numbers
 -------
@@ -232,6 +262,8 @@ A number in a code block `{{ 100 }}` is similar to a JavaScript number:
 - Floats: `100.0`, `1.0e3`, `1.0e-3`
 
 TextScript implementation in .NET is limited in the range of numbers it can support. The maximum length for integer is defined by `Int64.MaxValue` and for floating point numbers, `Decimal.MaxValue`.
+
+[:top:](#language-design)
 
 
 Boolean
@@ -249,6 +281,8 @@ true
 false
 ```
 
+[:top:](#language-design)
+
 
 null
 ----
@@ -264,6 +298,8 @@ When resolving to a string output, the null value will output an empty string:
 ```html
 
 ```
+
+[:top:](#language-design)
 
 
 Variables
@@ -283,6 +319,9 @@ A **local variable** like `{{ $name }}` is an identifier starting with `$`. A lo
 The **special local variable** `$` alone is an array containing the arguments passed to the current function or include page.
 
 The special local variables `$0` `$1` ... `$n` is a shorthand of `$[0]`, `$[1]` ... `$[n]`. e.g Using `$0` returns the first argument of the current function or including page.
+
+[:top:](#language-design)
+
 
 ### The special variable `this`
 
@@ -322,6 +361,9 @@ b.x
 1
 ```
 
+[:top:](#language-design)
+
+
 ### The special variable `empty`
 
 The `empty` variable always represents an empty object. It mainly exists to be compatible with liquid, by providing a way to compare an object with the `empty` object to check if it is empty or not:
@@ -339,6 +381,8 @@ b = [1, 2]~}}
 true
 false
 ```
+
+[:top:](#language-design)
 
 
 Objects
@@ -370,6 +414,9 @@ Or use the JSON syntax:
 
 Like JSON, you can define an object in a single line.
 
+[:top:](#language-design)
+
+
 ### Member access
 The statement `{{ myobject.member1 }}` is equal to `{{ myobject["member1"] }}`.
 
@@ -395,6 +442,9 @@ may be
 >
 > You cannot add members to objects exposed via the .NET runtime.
 
+[:top:](#language-design)
+
+
 ### The special property `empty?`
 
 You can quickly check if an object is empty using the special property `.empty?`:
@@ -412,6 +462,8 @@ b = [1, 2]~}}
 true
 false
 ```
+
+[:top:](#language-design)
 
 
 Arrays
@@ -466,6 +518,9 @@ You can also manipulate arrays with functions in the [`array` builtin object](#a
 > }}    
 > ```
 
+[:top:](#language-design)
+
+
 ### Array with properties
 You can attach properties to arrays, somewhat like objects:
 
@@ -482,6 +537,9 @@ a.x + a[0]
 yes5
 ```
 
+[:top:](#language-design)
+
+
 ### The special `size` property
 Arrays have a `size` property that can be used to query the number of elements in the array:
 
@@ -496,6 +554,9 @@ a.size
 ```html
 3
 ```
+
+[:top:](#language-design)
+
 
 Functions
 ---------
@@ -552,4 +613,6 @@ x = 1 | myobject.myinc    # x = x + 1
 ```
 
 The function aliasing operator `@` allows you to pass a function as a parameter to another function, enabling powerful function compositions.
+
+[:top:](#language-design)
 
