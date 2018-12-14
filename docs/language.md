@@ -57,12 +57,12 @@ In this tutorial you will learn the syntax of the TextScript templating language
     - [Special loop variables](#special-loop-variables)
     - [`break` and `continue`](#break-and-continue)
   - [9.5 `capture` ... `end`](#95-capture--end)
-  - [9.6 `readonly &lt;variable&gt;`](#96-readonly-variable)
-  - [9.7 `import &lt;variable&gt;`](#97-import-variable)
+  - [9.6 `readonly <variable>`](#96-readonly-variable)
+  - [9.7 `import <variable>`](#97-import-variable)
   - [9.8 `with` ... `end`](#98-with--end)
-  - [9.9 `wrap &lt;function&gt; &lt;arg1...argn&gt;` ... `end`](#99-wrap-function-arg1argn--end)
-  - [9.10 `include &lt;name&gt; arg1?...argn?`](#910-include-name-arg1argn)
-  - [9.11 `ret &lt;expression&gt;?`](#911-ret-expression)
+  - [9.9 `wrap <function> <arg1...argn>` ... `end`](#99-wrap-function-arg1argn--end)
+  - [9.10 `include <name> arg1?...argn?`](#910-include-name-arg1argn)
+  - [9.11 `ret <expression>?`](#911-ret-expression)
 - [10. Built-in functions](builtins.md)
 
 [:top:](#language)
@@ -792,13 +792,15 @@ The following binary operators are supported on **strings**:
 
 For addition, as long as there is a string in a binary operation, the other part will be automatically converted to a string.
 
-The following literals are converted to plain strings:
+Here are some examples of concatenating strings with other data types:
 
-* `null -> ""`. e.g: `"aaaa" + null -> "aaaa"`
-* `0 -> "0"`. e.g.: `"aaaa" + 0 -> "aaaa0"`
-* `1.0 -> "1.0"`. e.g.: `"aaaa" + 1.0 -> "aaaa1.0"`
-* `true -> "true"`. e.g.: `"aaaa" + true -> "aaaatrue"`
-* `false -> "false"`. e.g.: `"aaaa" + false -> "aaaafalse"`
+| Left   | Right   | Result      | Note
+|--------|---------|-------------|------------
+| `aaaa` | null    | `aaaa`      | `null` becomes `""`
+| `aaaa` | 0       | `aaaa0`     | `0` becomes `"0"`
+| `aaaa` | 1.0     | `aaaa1.0`   | `1.0` becomes `"1.0"`
+| `aaaa` | true    | `aaaatrue`  | `true` becomes `"true"`
+| `aaaa` | false   | `aaaafalse` | `false` becomes `"false"`
 
 [:top:](#language)
 
@@ -820,10 +822,8 @@ They work with `numbers`, `strings` and `datetimes`.
 
 You can combine conditionnal expressions with `&&` (and operator) and `||` (or operator)
 
-| Operator            | Description
-|---------------------|------------
-| `<left> && <right>` | Is left true and right true? 
-| `<left> || <right>` | Is left true or right true?
+- `<left> && <right>`: Is left true and right true?
+- `<left> || <right>`: Is left true or right true?
 
 [:top:](#language)
 
