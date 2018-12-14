@@ -1,8 +1,0 @@
-frameworks {
-    'netstandard2.1' {
-        compiler {
-            constants = ['NETSTANDARD2', 'NETSTANDARD2_1']
-            debugSymbolsType = 'portable'
-        }
-    }
-}
