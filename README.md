@@ -143,4 +143,4 @@ We take inspirations from the following repos. For third party licensing info, r
 * [Fluid](https://github.com/sebastienros/fluid/) .NET liquid templating engine
 * [Nustache](https://github.com/jdiamond/Nustache): Logic-less templates for .NET
 * [Handlebars.Net](https://github.com/rexm/Handlebars.Net): .NET port of handlebars.js
-* [Scriben](https://github.com/lunet-io/scriban): .NET templating engine
+* [Scriban](https://github.com/lunet-io/scriban): .NET templating engine
