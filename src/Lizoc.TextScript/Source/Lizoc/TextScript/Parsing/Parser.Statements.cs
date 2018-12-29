@@ -293,10 +293,11 @@ namespace Lizoc.TextScript.Parsing
         private ScriptConditionStatement ParseElseStatement(bool isElseIf)
         {
             // Case of elsif
-            if (_isLiquid && isElseIf)
+            if (isElseIf)
                 return ParseIfStatement(false, true);
 
             // unit test: 200-if-else-statement.txt
+            /*
             Token nextToken = PeekToken();
             if (!_isLiquid && 
                 nextToken.Type == TokenType.Identifier && 
@@ -311,6 +312,7 @@ namespace Lizoc.TextScript.Parsing
                 }
                 return ParseIfStatement(false, true);
             }
+            */
 
             ScriptElseStatement elseStatement = Open<ScriptElseStatement>();
             NextToken(); // skip else

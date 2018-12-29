@@ -26,9 +26,9 @@ end
 
 if false
   "Boo!"
-else if false
+elseif false
   "Boo2"
-else if null
+elseif null
   "Boo3"
 else
   "Yes"
@@ -37,9 +37,9 @@ end
 {{
 if false
   "Boo!"
-else if false
+elseif false
   "Boo2"
-else if null
+elseif null
   "Boo3"
 else
   "Yes"
@@ -47,6 +47,6 @@ end
 }}
 
 # Test ; as an end of statement
-if false; "Boo!"; else if false; "Boo2"; else if null; "Boo3"; else; "Yes"; end
+if false; "Boo!"; elseif false; "Boo2"; elseif null; "Boo3"; else; "Yes"; end
 ===
-{{if false; "Boo!"; else if false; "Boo2"; else if null; "Boo3"; else; "Yes"; end}}
+{{if false; "Boo!"; elseif false; "Boo2"; elseif null; "Boo3"; else; "Yes"; end}}

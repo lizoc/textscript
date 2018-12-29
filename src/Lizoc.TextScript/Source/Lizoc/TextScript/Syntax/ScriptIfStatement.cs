@@ -8,7 +8,7 @@
 
 namespace Lizoc.TextScript.Syntax
 {
-    [ScriptSyntax("if statement", "if <expression> ... end|else|else if")]
+    [ScriptSyntax("if statement", "if <expression> ... end|else|elseif <expression>")]
     public class ScriptIfStatement : ScriptConditionStatement
     {
         /// <summary>
@@ -40,9 +40,10 @@ namespace Lizoc.TextScript.Syntax
         public override void Write(TemplateRewriterContext context)
         {
             if (IsElseIf)
-                context.Write("else ");
+                context.Write("elseif").ExpectSpace();
+            else
+                context.Write("if").ExpectSpace();
 
-            context.Write("if").ExpectSpace();
             if (InvertCondition)
                 context.Write("!(");
 
@@ -62,6 +63,9 @@ namespace Lizoc.TextScript.Syntax
 
         public override string ToString()
         {
+            if (IsElseIf)
+                return string.Format("elseif {0}", Condition);
+
             return string.Format("if {0}", Condition);
         }
     }

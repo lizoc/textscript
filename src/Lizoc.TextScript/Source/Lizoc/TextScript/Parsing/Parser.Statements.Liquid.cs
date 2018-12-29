@@ -124,7 +124,7 @@ namespace Lizoc.TextScript.Parsing
                         }
                         else
                         {
-                            if (identifier == "elseif")
+                            if (identifier == "elsif")
                                 LogError(startToken, RS.ElseIfConditionSyntaxError);
 
                             ((ScriptWhenStatement)parentCondition).Next = nextCondition;

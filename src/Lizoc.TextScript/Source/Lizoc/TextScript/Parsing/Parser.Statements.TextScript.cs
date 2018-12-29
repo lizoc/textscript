@@ -70,15 +70,24 @@ namespace Lizoc.TextScript.Parsing
                     }
                     hasEnd = true;
                     break;
+
                 case "else":
-                    ScriptConditionStatement nextCondition = ParseElseStatement(false);
+                case "elseif":
+                    ScriptConditionStatement nextCondition = ParseElseStatement(identifier == "elseif");
                     var parentCondition = parent as ScriptConditionStatement;
                     if (parent is ScriptIfStatement || parent is ScriptWhenStatement)
                     {
                         if (parent is ScriptIfStatement)
+                        {
                             ((ScriptIfStatement)parentCondition).Else = nextCondition;
+                        }
                         else
+                        {
+                            if (identifier == "elseif")
+                                LogError(startToken, RS.ElseIfConditionSyntaxError);
+
                             ((ScriptWhenStatement)parentCondition).Next = nextCondition;
+                        }
                     }
                     else
                     {
@@ -89,6 +98,7 @@ namespace Lizoc.TextScript.Parsing
                     }
                     hasEnd = true;
                     break;
+
                 case "for":
                     CheckNotInCase(parent, startToken);
                     if (PeekToken().Type == TokenType.Dot)

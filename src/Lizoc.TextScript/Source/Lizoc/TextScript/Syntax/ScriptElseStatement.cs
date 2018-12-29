@@ -8,7 +8,7 @@
 
 namespace Lizoc.TextScript.Syntax
 {
-    [ScriptSyntax("else statement", "else | else if <expression> ... end|else|else if")]
+    [ScriptSyntax("else statement", "else ... end")]
     public class ScriptElseStatement : ScriptConditionStatement
     {
         public ScriptBlockStatement Body { get; set; }

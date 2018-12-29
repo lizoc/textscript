@@ -94,7 +94,7 @@ raw
             var text = @"{{
 if true
     ""yes""
-else if yo
+elseif yo
     ""no""
 end
 y

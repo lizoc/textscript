@@ -1,6 +1,7 @@
 {{ "<p>test</p>" | html.escape }}
-{{ "john@liquid.com" | html.url_encode }}
-{{ "<hello> & <world>" | html.url_escape }}
+{{ "&lt;p&gt;test&lt;/p&gt;" | html.unescape }}
+{{ "john@liquid.com" | html.url_escape }}
+{{ "john%40liquid.com" | html.url_unescape }}
 {{ "<hello> and test" | html.strip }}
 {{ "<hello x='yoy>' y='yes'> and test" | html.strip }}
 {{ "</html> and test </body>" | html.strip }}
