@@ -1,4 +1,4 @@
-# Localized	9/27/2018 9:40 PM (GMT)	303:4.80.0411	Message.psd1
+# Localized	28/10/2018 9:40 PM (GMT)	303:5.89.0411	Message.psd1
 # DotNetBuilder BMLocalizedData.en-US
 
 ConvertFrom-StringData @'
@@ -9,7 +9,7 @@ LocaleName = en-US
 AuthorLabel = Created by
 VersionLabel = Version
 Author = Build Team @Lizoc
-Version = 3.10.3072.0
+Version = 3.15.4212.0
 Syntax = SYNTAX
 Example = EXAMPLE
 Description = DESCRIPTION
@@ -91,6 +91,7 @@ PublishPackageWithoutSymbols = Target server (symbols disabled): {0}
 IncludePathIsNull = Failed to process an include directive because the path is null or an empty string.
 IncludePathContainsPathSeparator = An include directive in BSD cannot contain path separator character.
 IncludeNameNotFound = An include directive for "{0}" was not found.
+PathOccupiedByDirectory = Unable to create file "{0}" because the path was occupied by a directory.
 
 # ---- [ /Localized Data ] --------------------------------------------
 '@

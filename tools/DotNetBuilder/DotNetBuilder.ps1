@@ -373,22 +373,14 @@ task Setup -depends Precheck {
     # ~~~~~~~~~~~~~~~~~
     # autoincrement version
     # ~~~~~~~~~~~~~~~~~
-    $requireAutoIncrementVersion = $false
     $useBuildVerLog = $false
     if ((($Configuration -eq 'Debug') -and ($BuildEnv.versioning.'debug-build' -eq 'auto')) -or
         (($Configuration -ne 'Debug') -and ($BuildEnv.versioning.'release-build' -eq 'auto')))
     {
-    	if ($Subcommand -eq 'Configure')
-    	{
-		    $requireAutoIncrementVersion = $true
-    	}
-    	else
-    	{
-    		$useBuildVerLog = $true
-    	}
+        $useBuildVerLog = $true
     }
 
-    if ($requireAutoIncrementVersion -or $useBuildVerLog)
+    if ($useBuildVerLog)
     {
         $autoBuildNumber = 0
         $lastAutoBuildNumber = 0
@@ -400,31 +392,33 @@ task Setup -depends Precheck {
             $verlogIsValid = [int]::TryParse($verlogText, [ref]$lastAutoBuildNumber)
             if ($verlogIsValid)
             {
-            	if ($requireAutoIncrementVersion)
-            	{
-	                if ($lastAutoBuildNumber -eq [int]::MaxValue)
-	                {
-	                    say $sr.AutoBuildVersionOverflow -v 0
-	                    $autoBuildNumber = $lastAutoBuildNumber
-	                }
-	                else
-	                {
-	                    $autoBuildNumber = $lastAutoBuildNumber + 1
-	                    $autoBuildNumber | Set-Content -Path $verlogPath -Encoding UTF8
-	                }
+	        if ($lastAutoBuildNumber -eq [int]::MaxValue)
+	        {
+	            say $sr.AutoBuildVersionOverflow -v 0
+	            $autoBuildNumber = $lastAutoBuildNumber
+	        }
+	        else
+	        {
+	            $autoBuildNumber = [math]::Max($lastAutoBuildNumber + 1, 0)
+	            $autoBuildNumber | Set-Content -Path $verlogPath -Encoding UTF8
+	        }
 
-	                $autoBuildNumber | Set-Content -Path $verlogPath -Encoding UTF8
-            	}
-            	elseif ($useBuildVerLog)
-            	{
-            		$autoBuildNumber = $lastAutoBuildNumber
-            	}
+	        $autoBuildNumber | Set-Content -Path $verlogPath -Encoding UTF8
             }
             else
             {
                 say $sr.VersionLogCorrupted -v 0
                 '0' | Set-Content -Path $verlogPath -Encoding UTF8
            }
+        }
+        else
+        {
+            if (Test-Path $verlogPath -PathType Container)
+            {
+                die ($sr.PathOccupiedByDirectory -f $verlogPath)
+            }
+
+            '0' | Set-Content -Path $verlogPath -Encoding UTF8
         }
 
         $BuildEnv.versioning | Add-Member -MemberType NoteProperty -Name 'build' -Value $autoBuildNumber
