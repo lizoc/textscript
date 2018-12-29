@@ -8,12 +8,8 @@
 
 using System;
 using System.Collections;
-using SCG = System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using Lizoc.TextScript;
 using Lizoc.TextScript.Parsing;
-using Lizoc.TextScript.Runtime;
 using Lizoc.TextScript.Syntax;
 using RS = Lizoc.PowerShell.TextScript.RS;
 
@@ -24,6 +20,13 @@ namespace Lizoc.TextScript.Runtime
     /// </summary>
     internal class LocalFileTemplateLoader : ITemplateLoader
     {
+        private string _currentDirectory;
+
+        public LocalFileTemplateLoader(string currentDirectory)
+        {
+            _currentDirectory = currentDirectory;
+        }
+
         public string GetPath(TemplateContext context, SourceSpan callerSpan, string templateName)
         {
             if (Path.IsPathRooted(templateName))
@@ -151,14 +154,9 @@ namespace Lizoc.TextScript.Runtime
                 return Directory.GetFileSystemEntries(parentFullPath, wildcard, recurseOption);
         }
 
-        // polyfill to get current directory
         private string GetCurrentDirectory()
         {
-#if NETSTANDARD
-            return Directory.GetCurrentDirectory();
-#else
-            return Environment.CurrentDirectory;
-#endif
+            return _currentDirectory;
         }
     }
 }

@@ -8,15 +8,13 @@
 
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Management.Automation;
-using System.Reflection;
-using System.Linq;
 using SC = System.Collections;
 using TS = Lizoc.TextScript;
 using TSR = Lizoc.TextScript.Runtime;
 using TSP = Lizoc.TextScript.Parsing;
 using Lizoc.PowerShell.TextScript;
+using Lizoc.TextScript.Runtime;
 
 namespace Lizoc.PowerShell.Commands
 {
@@ -25,6 +23,7 @@ namespace Lizoc.PowerShell.Commands
     /// </summary>
     [Cmdlet(
         VerbsData.ConvertFrom, "Template", 
+        DefaultParameterSetName = "__AllParameterSets",
         HelpUri = "http://docs.lizoc.com/ps/convertfromtemplate",
         RemotingCapability = RemotingCapability.None
     ), OutputType(typeof(string))]
@@ -34,7 +33,10 @@ namespace Lizoc.PowerShell.Commands
         private int _maxRecurseDepth = 64;
         private bool _infiniteRecurseDepth = false;
         private bool _strictMode = false;
-        private bool _fileAccess = true;
+        private bool _fileAccess = false;
+        private bool _overrideFileSystemProvider = false;
+        private ScriptBlock _getPathScript;
+        private ScriptBlock _loadFileScript;
 
         private bool _convertHashtableRecurse = true;
 
@@ -78,11 +80,60 @@ namespace Lizoc.PowerShell.Commands
         /// <summary>
         /// Grants the template access to the underlying file system.
         /// </summary>
-        [Parameter()]
+        [Parameter(Mandatory = true, ParameterSetName = "FileAccessSet")]
         public SwitchParameter FileAccess
         {
             get { return _fileAccess; }
             set { _fileAccess = value; }
+        }
+
+        /// <summary>
+        /// Customize the behavior with functions relating to file system access.
+        /// </summary>
+        [Parameter(Mandatory = true, ParameterSetName = "OverrideFileSystemSet")]
+        public SwitchParameter OverrideFileSystem
+        {
+            get { return _overrideFileSystemProvider; }
+            set { _overrideFileSystemProvider = value; }
+        }
+
+        /// <summary>
+        /// A custom function that handles file system path related queries.
+        /// </summary>
+        /// <remarks>
+        /// This function must handle several type of path related queries.
+        /// 
+        /// If no argument is supplied, the full path of the current directory must be returned.
+        /// 
+        /// If one to two arguments were supplied, the first argument must be interpreted as the template name, 
+        /// which may be an absolute or relative path. The second argument, if present, is the type of path being 
+        /// queried, which may be any of the following values: "Container", "Leaf" or "Any". If the path exists, 
+        /// the return value should be the absolute path of the template. If the path does not exist, nothing should 
+        /// be returned.
+        /// 
+        /// If three arguments were supplied, the first argument is a directory path, which may be an absolute or 
+        /// relative. The second argument is a wildcard expression. The third argument is a boolean, which 
+        /// indicates whether this is a recursive search. The return value should be an enumerable collection of string 
+        /// values, each being an absolute path that matches the wildcard in the directory specified.
+        /// </remarks>
+        [Parameter(Mandatory = true, ParameterSetName = "OverrideFileSystemSet")]
+        public ScriptBlock GetPathScriptBlock
+        {
+            get { return _getPathScript; }
+            set { _getPathScript = value; }
+        }
+
+        /// <summary>
+        /// A custom function that returns the content of a template.
+        /// </summary>
+        /// <remarks>
+        /// This function must return the content of a template. The first argument is the full path of the template.
+        /// </remarks>
+        [Parameter(Mandatory = true, ParameterSetName = "OverrideFileSystemSet")]
+        public ScriptBlock LoadTemplateScriptBlock
+        {
+            get { return _loadFileScript; }
+            set { _loadFileScript = value; }
         }
 
         /// <see cref="Cmdlet.BeginProcessing()" />
@@ -134,11 +185,23 @@ namespace Lizoc.PowerShell.Commands
 
             // add variable if specified
             // then return rendered result
+            ITemplateLoader templateLoader = null;
+            if (_fileAccess)
+            {
+                string currentDirectory = ScriptBlock.Create("Get-Location | select -expand Path").Invoke()[0].ToString();
+                templateLoader = new LocalFileTemplateLoader(currentDirectory);
+            }
+            else if (_overrideFileSystemProvider)
+            {
+                templateLoader = new PSCustomFileTemplateLoader(_getPathScript, _loadFileScript);
+            }
+
             TS.TemplateContext templateContext = new TS.TemplateContext()
             {
                 // loads file from disk using the 'include' keyword
-                TemplateLoader = (_fileAccess ? new TSR.LocalFileTemplateLoader() : null)
+                TemplateLoader = templateLoader
             };
+
             try
             {
                 if (_strictMode)
