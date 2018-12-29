@@ -43,7 +43,7 @@ In this tutorial you will learn the syntax of the TextScript templating language
     - [Named arguments](#named-arguments)
 - [9. Statements](#9-statements)
   - [9.1 Single expression](#91-single-expression)
-  - [9.2 `if` ... `else` ... `else if` ... `end`](#92-if--else--else-if--end)
+  - [9.2 `if` ... `else` ... `elseif` ... `end`](#92-if--else--elseif--end)
     - [Truthy and Falsy](#truthy-and-falsy)
   - [9.3 `case` ... `when`](#93-case--when)
   - [9.4 Loops](#94-loops)
@@ -950,7 +950,7 @@ An expression statement is a scripting code:
 [:top:](#language)
 
 
-### 9.2 `if` ... `else` ... `else if` ... `end`
+### 9.2 `if` ... `else` ... `elseif` ... `end`
 
 The general syntax is:
 
@@ -958,7 +958,7 @@ The general syntax is:
 {{
 if <expression>
   ...
-else if <expression>
+elseif <expression>
   ...
 else 
   ...
@@ -966,9 +966,9 @@ end
 }}
 ```
 
-An `if` statement must be closed by an `end` or followed by `else` or `else if`. An `else` or `else if` statement must be followed by `else`, `else if` or closed by an `end` statement.
+An `if` statement must be closed by an `end` or followed by `else` or `elseif`. An `else` or `elseif` statement must be followed by `else`, `elseif` or closed by an `end` statement.
 
-An expression evaluated for a `if` or `else if` will be converted to a boolean according to the truthy-and-falsy rules below.
+An expression evaluated for a `if` or `elseif` will be converted to a boolean according to the truthy-and-falsy rules below.
 
 #### Truthy and Falsy
 
