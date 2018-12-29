@@ -34,7 +34,7 @@ docServerUrl = 'http://'${gitUser}'.github.io'
 # ------------------
 versioning {
     major = 1
-    minor = 5
+    minor = 6
     revision = 0
     
     # Default value is 'beta'. You should set it to '' when releasing a production build
@@ -78,6 +78,8 @@ copyrightHeader {
 //     Copyright (C) '''${year}''' '''${company}''' <'''${website}'''>
 //     The source code in this file is subject to the '''${license}''' license.
 //     See the LICENSE file in the repository root directory for more information.
+//     All or part thereof may be subject to other licenses documented below this header and 
+//     the THIRD-PARTY-LICENSE file in the repository root directory.
 // </copyright>
 // -----------------------------------------------------------------------
 

@@ -1,4 +1,14 @@
-﻿using System;
+﻿// -----------------------------------------------------------------------
+// <copyright file="PSCustomFileTemplateLoader.cs" repo="TextScript">
+//     Copyright (C) 2018 Lizoc Inc. <http://www.lizoc.com>
+//     The source code in this file is subject to the MIT license.
+//     See the LICENSE file in the repository root directory for more information.
+//     All or part thereof may be subject to other licenses documented below this header and 
+//     the THIRD-PARTY-LICENSE file in the repository root directory.
+// </copyright>
+// -----------------------------------------------------------------------
+
+using System;
 using System.IO;
 using System.Text;
 using System.Collections.ObjectModel;
