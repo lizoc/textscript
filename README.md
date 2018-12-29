@@ -42,7 +42,7 @@ ipmo TextScript
     { name = 'banana';  price = '$5';  fullDesc = "Minion's favorite" }
     { name = 'beef';    price = '$50'; fullDesc = "Meatlovers delight"}
   )
-} | ConvertFrom-Tempate @'
+} | ConvertFrom-Template @'
 <ul id='cart'>
   {{ for item in food }}
     <li>
@@ -54,12 +54,6 @@ ipmo TextScript
 </ul>
 '@
 ```
-
-> **Hold On!**
->
-> Notice that `fullDesc` became `full_desc`? This is because TextScript automatically rename properties and methods of .NET objects to lowercase and snake case. For instance, a 
-> property like `IsProcessRunning` becomes `is_process_running` inside a template. This behavior is designed to match the naming convention in liquid templates.
-> You can override this by implementing your renaming strategy. Check out the [`MemberRenamer`](docs/runtime.md#member-renamer) delegate.
 
 
 Highlights
