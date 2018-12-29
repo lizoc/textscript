@@ -8,7 +8,7 @@
 
 namespace Lizoc.TextScript.Syntax
 {
-    [ScriptSyntax("return statement", "return <expression>?")]
+    [ScriptSyntax("return statement", "ret <expression>?")]
     public class ScriptReturnStatement : ScriptStatement
     {
         public ScriptExpression Expression { get; set; }
