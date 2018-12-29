@@ -90,10 +90,10 @@ namespace Lizoc.TextScript.Functions
                     target = "html";
                     member = "escape";
                     return true;
-                case "escape_once":
-                    target = "html";
-                    member = "escape_once";
-                    return true;
+                //case "escape_once":
+                //    target = "html";
+                //    member = "escape_once";
+                //    return true;
                 case "first":
                     target = "array";
                     member = "first";
@@ -126,10 +126,10 @@ namespace Lizoc.TextScript.Functions
                     target = "math";
                     member = "modulo";
                     return true;
-                case "newline_to_br":
-                    target = "html";
-                    member = "newline_to_br";
-                    return true;
+                //case "newline_to_br":
+                //    target = "html";
+                //    member = "newline_to_br";
+                //    return true;
                 case "plus":
                     target = "math";
                     member = "plus";
@@ -222,7 +222,6 @@ namespace Lizoc.TextScript.Functions
         {
             public DefaultBuiltins() : base(50, false)
             {
-                // ReSharper disable CollectionNeverUpdated.Local
                 ScriptObject math = (ScriptObject)BuiltinFunctions.Default["math"];
                 ScriptObject str = (ScriptObject)BuiltinFunctions.Default["string"];
                 ScriptObject array = (ScriptObject)BuiltinFunctions.Default["array"];
@@ -232,7 +231,6 @@ namespace Lizoc.TextScript.Functions
 
                 // NOTE: must be in sync with TryImportLiquid
 
-                // ReSharper restore CollectionNeverUpdated.Local
                 SetValue("abs", math["abs"], true);
                 SetValue("append", str["append"], true);
                 SetValue("capitalize", str["capitalize"], true);

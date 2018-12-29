@@ -44,7 +44,7 @@ namespace Lizoc.TextScript.Functions
                 return text;
 
 #if NETSTANDARD
-            var stripHtml = new Regex(RegexMatchHtml, RegexOptions.IgnoreCase | RegexOptions.Singleline, context.RegexTimeOut);
+            Regex stripHtml = new Regex(RegexMatchHtml, RegexOptions.IgnoreCase | RegexOptions.Singleline, context.RegexTimeOut);
 #endif
 
             return stripHtml.Replace(text, string.Empty);
@@ -65,16 +65,25 @@ namespace Lizoc.TextScript.Functions
         /// </remarks>
         public static string Escape(string text)
         {
-            if (string.IsNullOrEmpty(text))
-                return text;
+            return HtmlHelper.HtmlEncode(text);
+        }
 
-#if NETFX35
-            return System.Web.HttpUtility.HtmlEncode(text);
-#elif PORTABLE
-            throw new NotSupportedException(string.Format(RS.UnsupportedFunctionOnPlatform, "html.escape"));
-#else
-            return System.Net.WebUtility.HtmlEncode(text);
-#endif
+        /// <summary>
+        /// Decode a HTML-escaped input string back to HTML.
+        /// </summary>
+        /// <param name="text">The HTML-escaped input string.</param>
+        /// <returns>The decoded string.</returns>
+        /// <remarks>
+        /// ```template-text
+        /// {{ "&amp;lt;p&amp;gt;This is a paragraph&amp;lt;/p&amp;gt;" | html.unescape }}
+        /// ```
+        /// ```html
+        /// &lt;p&gt;This is a paragraph&lt;/p&gt;
+        /// ```
+        /// </remarks>
+        public static string Unescape(string text)
+        {
+            return HtmlHelper.HtmlDecode(text);
         }
 
         /// <summary>
@@ -84,46 +93,33 @@ namespace Lizoc.TextScript.Functions
         /// <returns>The url encoded string.</returns>
         /// <remarks>
         /// ```template-text
-        /// {{ "john@liquid.com" | html.url_encode }}
+        /// {{ "john@liquid.com" | html.url_escape }}
         /// ```
         /// ```html
         /// john%40liquid.com
         /// ```
         /// </remarks>
-        public static string UrlEncode(string text)
+        public static string UrlEscape(string text)
         {
-            if (string.IsNullOrEmpty(text))
-                return text;
-
-#if PORTABLE
-            throw new NotSupportedException(string.Format(RS.UnsupportedFunctionOnPlatform, "html.url_encode"));
-#else
-            return Uri.EscapeDataString(text);
-#endif
+            return HtmlHelper.UrlEncode(text);
         }
 
         /// <summary>
-        /// Identifies all characters in a string that are not allowed in URLS, and replaces the characters with their escaped variants.
+        /// Converts an URL that is percent-encoded back to a regular URL.
         /// </summary>
-        /// <param name="text">The input string.</param>
-        /// <returns>The url escaped string.</returns>
+        /// <param name="text">The input URL that is percent-encoded.</param>
+        /// <returns>The regular url string.</returns>
         /// <remarks>
         /// ```template-text
-        /// {{ "&lt;hello&gt; &amp; &lt;world&gt;" | html.url_escape }}
+        /// {{ "john%40liquid.com" | html.url_unescape }}
         /// ```
         /// ```html
-        /// %3Chello%3E%20&amp;%20%3Cworld%3E
+        /// john@liquid.com
         /// ```
         /// </remarks>
-        public static string UrlEscape(string text)
+        public static string UrlUnescape(string text)
         {
-            if (string.IsNullOrEmpty(text))
-                return text;
-#if PORTABLE
-            throw new NotSupportedException(string.Format(RS.UnsupportedFunctionOnPlatform, "html.url_escape"));
-#else
-            return Uri.EscapeUriString(text);
-#endif
+            return HtmlHelper.UrlDecode(text);
         }
 
         /// <summary>
