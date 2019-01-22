@@ -17,6 +17,7 @@ using TSR = Lizoc.TextScript.Runtime;
 using TSP = Lizoc.TextScript.Parsing;
 using Lizoc.PowerShell.TextScript;
 using Lizoc.TextScript.Runtime;
+using System.Threading.Tasks;
 
 namespace Lizoc.PowerShell.Commands
 {
@@ -32,10 +33,15 @@ namespace Lizoc.PowerShell.Commands
     public class ConvertFromTemplateCommand : Cmdlet
     {
         private TSR.ScriptObject _templateVariable;
-        private int _maxRecurseDepth = 64;
-        private bool _infiniteRecurseDepth = false;
+        private int _maxDepth = 0;
+        private bool _infiniteDepth = true;
+        private int _stackSize = 1024;
         private bool _strictMode = false;
         private bool _fileAccess = false;
+        private int _loopLimit = int.MaxValue;
+        private TimeSpan _timeout = TimeSpan.FromSeconds(30);
+        private bool _infiniteNesting = true;
+        private int _nestingLimit = 0;
         private bool _overrideFileSystemProvider = false;
         private ScriptBlock _getPathScript;
         private ScriptBlock _loadFileScript;
@@ -55,18 +61,89 @@ namespace Lizoc.PowerShell.Commands
         public object InputObject { get; set; }
 
         /// <summary>
-        /// Restrict the maximum recursion depth.
+        /// Restricts the maximum depth of objects passed into the template engine. Do not specify this parameter 
+        /// to ensure that the entire <see cref="InputObject"/> is available to the template script.
         /// </summary>
         [Parameter()]
-        [ValidateRange(0, int.MaxValue)]
+        [ValidateRange(1, int.MaxValue)]
         public int Depth 
         { 
-            get { return _maxRecurseDepth; }
+            get
+            {
+                if (_infiniteDepth)
+                    return -1;
+
+                return _maxDepth;
+            }
             set 
             {
-                _maxRecurseDepth = value;
-                _infiniteRecurseDepth = (_maxRecurseDepth == 0);
+                _maxDepth = value;
+                _infiniteDepth = false;
             } 
+        }
+
+        /// <summary>
+        /// Restricts the number of loops allowed. Defaults to <see cref="int.MaxValue"/>.
+        /// </summary>
+        [Parameter()]
+        [ValidateRange(1, int.MaxValue)]
+        public int LoopLimit
+        {
+            get { return _loopLimit; }
+            set { _loopLimit = value; }
+        }
+
+        /// <summary>
+        /// Restricts the stack size. The stack size affects the number of recursive function calls 
+        /// allowed. Defaults to 1024.
+        /// </summary>
+        [Parameter()]
+        [ValidateRange(1, int.MaxValue)]
+        public int StackLimit
+        {
+            get { return _stackSize; }
+            set { _stackSize = value; }
+        }
+
+        /// <summary>
+        /// Restricts the number of nested expressions allowed, such as if/else and conditions. Do not 
+        /// specify this parameter to disable this restriction.
+        /// </summary>
+        [Parameter()]
+        [ValidateRange(1, int.MaxValue)]
+        public int NestingLimit
+        {
+            get
+            {
+                if (_infiniteNesting)
+                    return -1;
+
+                return _nestingLimit;
+            }
+            set
+            {
+                _nestingLimit = value;
+                _infiniteNesting = false;
+            }
+        }
+
+        /// <summary>
+        /// The total number of seconds allowed for the template engine to parse and render. A 
+        /// <see cref="TimeoutException"/> is triggered if the operation cannot complete within 
+        /// the duration specified. Defaults to 30 seconds.
+        /// </summary>
+        [Parameter()]
+        [ValidateRange(1, int.MaxValue)]
+        public int TimeoutSeconds
+        {
+            get
+            {
+                return (int)_timeout.TotalSeconds;
+            }
+            set
+            {
+                _timeout = TimeSpan.FromSeconds(value);
+            }
         }
 
         /// <summary>
@@ -168,7 +245,12 @@ namespace Lizoc.PowerShell.Commands
             // parse first
             try
             {
-                templateRuntime = TS.Template.Parse(this.Template);
+                TSP.ParserOptions parserOptions = new TSP.ParserOptions();
+
+                if (!_infiniteNesting && this.NestingLimit > 0)
+                    parserOptions.ExpressionDepthLimit = this.NestingLimit;
+
+                templateRuntime = TS.Template.Parse(this.Template, null, parserOptions);
 
                 // this is mostly to output warnings
                 if (templateRuntime != null && 
@@ -207,7 +289,24 @@ namespace Lizoc.PowerShell.Commands
             try
             {
                 if (_strictMode)
+                {
                     templateContext.StrictVariables = true;
+                    templateContext.EnableRelaxedMemberAccess = false;
+                }
+                else
+                {
+                    templateContext.StrictVariables = false;
+                    templateContext.EnableRelaxedMemberAccess = true;
+                }
+
+                // limit loops
+                templateContext.LoopLimit = this.LoopLimit;
+
+                // limit recursive calls
+                templateContext.RecursiveLimit = this.StackLimit;
+
+                // set timeout
+                templateContext.RegexTimeOut = _timeout;
 
                 if (this.InputObject != null)
                 {
@@ -221,7 +320,11 @@ namespace Lizoc.PowerShell.Commands
                     templateContext.PushGlobal(_templateVariable);
                 }
 
-                base.WriteObject(templateRuntime.Render(templateContext)); 
+                Task task = Task.Run(() => base.WriteObject(templateRuntime.Render(templateContext)));
+                bool completed = task.Wait(_timeout);
+
+                if (!completed)
+                    throw new TimeoutException();
             }
             catch (Exception ex)
             {
@@ -232,9 +335,9 @@ namespace Lizoc.PowerShell.Commands
 
         private TSR.ScriptArray ConvertArrayObject(SC.IEnumerable array, int recurseDepth = 0)
         {
-            if ((_infiniteRecurseDepth == false) && (recurseDepth >= _maxRecurseDepth))
+            if ((_infiniteDepth == false) && (recurseDepth >= this.Depth))
             {
-                base.WriteWarning(string.Format(RS.MaxDepthForEnumerableReached, _maxRecurseDepth));
+                base.WriteWarning(string.Format(RS.MaxDepthForEnumerableReached, this.Depth));
                 return new TSR.ScriptArray(array);
             }
 
@@ -277,10 +380,10 @@ namespace Lizoc.PowerShell.Commands
                 // handle object arrays
                 if (propertyValue is Array)
                 {
-                    if ((_infiniteRecurseDepth == true) || (recurseDepth < _maxRecurseDepth))
+                    if ((_infiniteDepth == true) || (recurseDepth < this.Depth))
                         convertedPropertyArrayValue = ConvertArrayObject((SC.IEnumerable)propertyValue, recurseDepth + 1);
                     else
-                        base.WriteWarning(string.Format(RS.MaxDepthReached, propertyName, "IEnumerable", _maxRecurseDepth));
+                        base.WriteWarning(string.Format(RS.MaxDepthReached, propertyName, "IEnumerable", this.Depth));
 
                     if (convertedPropertyArrayValue != null)
                         templateScriptObj.Add(propertyName, convertedPropertyArrayValue);
@@ -292,7 +395,7 @@ namespace Lizoc.PowerShell.Commands
                     if (propertyValue is SC.Hashtable)
                     {
                         if (_convertHashtableRecurse && 
-                            ((_infiniteRecurseDepth == true) || (recurseDepth < _maxRecurseDepth)))
+                            ((_infiniteDepth == true) || (recurseDepth < this.Depth)))
                         {
                             convertedPropertyValue = ConvertHashtableToScriptObject((SC.Hashtable)propertyValue, recurseDepth + 1);
                         }
@@ -300,15 +403,15 @@ namespace Lizoc.PowerShell.Commands
                         {
                             // only warn if it's because max depth is reached
                             if (_convertHashtableRecurse == true)
-                                base.WriteWarning(string.Format(RS.MaxDepthReached, propertyName, "Hashtable", _maxRecurseDepth));
+                                base.WriteWarning(string.Format(RS.MaxDepthReached, propertyName, "Hashtable", this.Depth));
                         }
                     }
                     else if (propertyValue is PSObject)
                     {
-                        if ((_infiniteRecurseDepth == true) || (recurseDepth < _maxRecurseDepth))
+                        if ((_infiniteDepth == true) || (recurseDepth < this.Depth))
                             convertedPropertyValue = ConvertPSObjectToScriptObject((PSObject)propertyValue, recurseDepth + 1);
                         else
-                            base.WriteWarning(string.Format(RS.MaxDepthReached, propertyName, "PSObject", _maxRecurseDepth));
+                            base.WriteWarning(string.Format(RS.MaxDepthReached, propertyName, "PSObject", this.Depth));
                     }
                     else 
                     {
@@ -343,7 +446,7 @@ namespace Lizoc.PowerShell.Commands
 
                 if (propertyValue is Array)
                 {
-                    if ((_infiniteRecurseDepth == true) || (recurseDepth < _maxRecurseDepth))
+                    if ((_infiniteDepth == true) || (recurseDepth < this.Depth))
                         convertedPropertyArrayValue = ConvertArrayObject((SC.IEnumerable)propertyValue, recurseDepth + 1);
 
                     if (convertedPropertyArrayValue != null)
@@ -358,7 +461,7 @@ namespace Lizoc.PowerShell.Commands
                     if (propertyValue is SC.Hashtable)
                     {
                         if (_convertHashtableRecurse && 
-                            ((_infiniteRecurseDepth == true) || (recurseDepth < _maxRecurseDepth)))
+                            ((_infiniteDepth == true) || (recurseDepth < this.Depth)))
                         {
                             convertedPropertyValue = ConvertHashtableToScriptObject((SC.Hashtable)propertyValue, recurseDepth + 1);
                         }
@@ -367,7 +470,7 @@ namespace Lizoc.PowerShell.Commands
                     }
                     else if (propertyValue is PSObject)
                     {
-                        if ((_infiniteRecurseDepth == true) || (recurseDepth < _maxRecurseDepth))
+                        if ((_infiniteDepth == true) || (recurseDepth < this.Depth))
                             convertedPropertyValue = ConvertPSObjectToScriptObject((PSObject)propertyValue, recurseDepth + 1);
 
                         //base.WriteObject(string.Format("{0} is psobject", propertyName));
