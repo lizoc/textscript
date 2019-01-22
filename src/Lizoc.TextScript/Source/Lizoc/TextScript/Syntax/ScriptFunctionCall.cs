@@ -20,7 +20,7 @@ using Lizoc.TextScript.Runtime;
 
 namespace Lizoc.TextScript.Syntax
 {
-    [ScriptSyntax("function call expression", "<target_expression> <arguemnt[0]> ... <arguement[n]>")]
+    [ScriptSyntax("function call expression", "<target_expression> <argument[0]> ... <argument[n]>")]
     public class ScriptFunctionCall : ScriptExpression
     {
         public ScriptFunctionCall()
