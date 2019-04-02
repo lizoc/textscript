@@ -15,9 +15,7 @@ What does this do?
 ==================
 TextScript is a text templating engine. Designed to be powerful yet easy to learn, TextScript aims to provide the same functionality of liquid and more. TextScript is written entirely in .NET, so there's absolutely no need for ruby, python or a boatload of NodeJS npms! 
 
-TextScript is **<font color="red">forked from</font> [Scriban](https://github.com/lunet-io/scriban)** in late 2018, with a modified parser and enhanced built-in functionality
-
-TextScript is <font color="red">**initially forked from Scriban**</font> in late 2018, and the code base has diverged since. Some primary differences are:
+TextScript is **initially forked from Scriban** in late 2018, and the code base has diverged since. Some primary differences are:
 
 - PowerShell cmdlet with full support for hashtables
 - A more terse syntax
