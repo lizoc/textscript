@@ -46,7 +46,7 @@ namespace Lizoc.TextScript.Runtime
         {
             Collection<SMA.PSObject> psResult = _getPathScript.Invoke(templatePath, type);
             string resultAsString = ScriptBlockResultToString(psResult);
-            return resultAsString == null;
+            return resultAsString != null;
         }
 
         public string Load(TemplateContext context, SourceSpan callerSpan, string templatePath)
@@ -161,7 +161,7 @@ namespace Lizoc.TextScript.Runtime
                 return null;
 
             if (psOutput.Count == 1)
-                return psOutput.ToString();
+                return psOutput[0].ToString();
 
             StringBuilder sb = new StringBuilder();
             foreach (SMA.PSObject psobj in psOutput)

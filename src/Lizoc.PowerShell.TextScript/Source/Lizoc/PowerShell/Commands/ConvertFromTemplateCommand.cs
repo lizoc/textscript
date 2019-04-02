@@ -272,7 +272,8 @@ namespace Lizoc.PowerShell.Commands
             ITemplateLoader templateLoader = null;
             if (_fileAccess)
             {
-                string currentDirectory = ScriptBlock.Create("Get-Location | select -expand Path").Invoke()[0].ToString();
+                string getFSLocationScript = "Get-Location -PSProvider FileSystem | Select-Object -ExpandProperty Path";
+                string currentDirectory = ScriptBlock.Create(getFSLocationScript).Invoke()[0].ToString();
                 templateLoader = new LocalFileTemplateLoader(currentDirectory);
             }
             else if (_overrideFileSystemProvider)
@@ -320,11 +321,25 @@ namespace Lizoc.PowerShell.Commands
                     templateContext.PushGlobal(_templateVariable);
                 }
 
-                Task task = Task.Run(() => base.WriteObject(templateRuntime.Render(templateContext)));
+                Task<string> task = Task<string>.Run(() => { return templateRuntime.Render(templateContext); });
+
                 bool completed = task.Wait(_timeout);
 
                 if (!completed)
                     throw new TimeoutException();
+                else
+                    base.WriteObject(task.Result);
+
+                if (task.IsFaulted == true && task.Exception != null)
+                    throw task.Exception;
+            }
+            catch (AggregateException aex)
+            {
+                foreach (Exception subex in aex.InnerExceptions)
+                {
+                    ErrorRecord subErrorRecord = new ErrorRecord(subex, "TemplateRenderFailure", ErrorCategory.ParserError, null);
+                    base.WriteError(subErrorRecord);
+                }
             }
             catch (Exception ex)
             {
