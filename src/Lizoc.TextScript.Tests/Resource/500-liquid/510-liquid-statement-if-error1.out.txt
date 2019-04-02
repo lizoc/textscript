@@ -1,1 +1,1 @@
-text(1,4) : error : Invalid "if statement" syntax: no matching "endif statement". >>> if <expression> ... end|else|else if
+text(1,4) : error : Invalid "if statement" syntax: no matching "endif statement". >>> if <expression> ... end|else|elseif <expression>

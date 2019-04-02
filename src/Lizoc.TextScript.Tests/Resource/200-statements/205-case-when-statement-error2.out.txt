@@ -1,1 +1,1 @@
-text(10,5) : error : A "else" condition must be preceded by "if", "else" or "when" condition.
+text(10,5) : error : An "else" condition must be preceded by "if", "elseif" or "when" condition.
