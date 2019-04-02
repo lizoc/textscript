@@ -9,9 +9,22 @@
     <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge" alt="MIT License"></a>
 </p>
 
+**This project is a fork over [Scriban](https://github.com/lunet-io/scriban)**
+
 What does this do?
 ==================
-TextScript is your text templating engine in the .NET world. No need to install ruby, python or a boatload of NodeJS npms! If you got .NET, TextScript offers a fast, lightweight and safe templating engine in a small package. Did we mention 100% compatibility with `liquid`?
+TextScript is a text templating engine. Designed to be powerful yet easy to learn, TextScript aims to provide the same functionality of liquid and more. TextScript is written entirely in .NET, so there's absolutely no need for ruby, python or a boatload of NodeJS npms! 
+
+TextScript is **<font color="red">forked from</font> [Scriban](https://github.com/lunet-io/scriban)** in late 2018, with a modified parser and enhanced built-in functionality
+
+TextScript is <font color="red">**initially forked from Scriban**</font> in late 2018, and the code base has diverged since. Some primary differences are:
+
+- PowerShell cmdlet with full support for hashtables
+- A more terse syntax
+- Lesser dependencies
+- Built-in LINQ-like functionality
+
+You can [read more](./docs/scriban_compared.md) about a list of differences here.
 
 
 Show me the money
@@ -32,7 +45,7 @@ var template = Template.Parse("Hello {{name}}!");
 var result = template.Render(new { Name = "World" }); // => "Hello World!" 
 ```
 
-TextScript borrows from the very popular [liquid](http://liquidmarkup.org/), which you are encouraged to learn before coming here. In most of the cases, there is no difference at all:
+TextScript borrows from the very popular [liquid](http://liquidmarkup.org/), which you are encouraged to look at too. In most of the cases, there is no difference at all:
 
 ```Powershell
 ipmo TextScript
@@ -137,4 +150,4 @@ We take inspirations from the following repos. For third party licensing info, r
 * [Fluid](https://github.com/sebastienros/fluid/) .NET liquid templating engine
 * [Nustache](https://github.com/jdiamond/Nustache): Logic-less templates for .NET
 * [Handlebars.Net](https://github.com/rexm/Handlebars.Net): .NET port of handlebars.js
-* [Scriban](https://github.com/lunet-io/scriban): .NET templating engine
+
