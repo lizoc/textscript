@@ -849,6 +849,28 @@ namespace Lizoc.TextScript.Functions
             return (text ?? string.Empty).PadRight(width, paddingChar);
         }
 
+        /// <summary>
+        /// Converts the value of objects to strings based on the formats specified and inserts them into another string.
+        /// </summary>
+        /// <param name="text">The object to format.</param>
+        /// <param name="format">A composite format string.</param>
+        /// <returns>A copy of the format string, in which the format items have been replaced by the string representation of the object to format.</returns>
+        /// <remarks>
+        /// ```template-text
+        /// {{ "world" | string.format 'hello {0}' }}
+        /// ```
+        /// ```html
+        /// hello world
+        /// ```
+        /// </remarks>
+        public static string Format(object text, string format)
+        {
+            if (text == null || format == null)
+                return null;
+
+            return string.Format(format, text);
+        }
+
 #if !PCL328 && !NETSTANDARD1_1
         /// <summary>
         /// Computes the `md5` hash of the input string.
